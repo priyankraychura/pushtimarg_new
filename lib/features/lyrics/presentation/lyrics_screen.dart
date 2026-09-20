@@ -130,9 +130,7 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
     ref.listen(readerProvider.select((s) => s.autoScrolling), (_, on) => _setAutoScroll(on));
     ref.listen(settingsProvider.select((s) => s.keepAwake), (_, on) => KeepAwake.set(on));
 
-    final script = lyrics.value != null && !lyrics.value!.has(settings.script)
-        ? Script.gujarati
-        : settings.script;
+    final script = lyrics.value?.resolve(settings.script) ?? settings.script;
 
     return Scaffold(
       body: DecoratedBox(
@@ -202,7 +200,7 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
         padding: const EdgeInsets.fromLTRB(AppSpacing.xxl, 14, AppSpacing.xxl, 200),
         children: [
           ScriptPills(
-            available: [for (final s in Script.values) if (data.has(s)) s],
+            available: data.available,
             selected: script,
             onSelect: ref.read(settingsProvider.notifier).setScript,
           ),

@@ -30,7 +30,13 @@ class Lyrics {
 
   bool has(Script s) => byScript[s]?.isNotEmpty ?? false;
 
-  List<String> linesFor(Script s) => byScript[s] ?? byScript[Script.gujarati] ?? const [];
+  /// Scripts with text, in [Script] order.
+  List<Script> get available => [for (final s in Script.values) if (has(s)) s];
+
+  /// [preferred] if we have it, else the first script we do have.
+  Script resolve(Script preferred) => has(preferred) ? preferred : (available.firstOrNull ?? preferred);
+
+  List<String> linesFor(Script s) => byScript[resolve(s)] ?? const [];
 
   /// Lines grouped into stanzas, split on empty strings.
   List<List<String>> stanzasFor(Script s) {

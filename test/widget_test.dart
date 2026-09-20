@@ -30,7 +30,8 @@ void main() {
       );
       expect(l.stanzasFor(Script.gujarati), [['a', 'b'], ['c']]);
       expect(l.has(Script.hindi), isFalse);
-      expect(l.linesFor(Script.hindi), ['a', 'b', '', 'c', '', '']); // falls back to Gujarati
+      expect(l.linesFor(Script.hindi), ['a', 'b', '', 'c', '', '']); // falls back to what exists
+      expect(l.resolve(Script.english), Script.gujarati);
     });
   });
 
