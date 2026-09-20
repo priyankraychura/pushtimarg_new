@@ -13,6 +13,7 @@ import '../../features/home/presentation/home_screen.dart';
 import '../../features/lyrics/presentation/lyrics_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/shell/presentation/app_shell.dart';
+import '../../features/varta/presentation/varta_screen.dart';
 import '../theme/theme.dart';
 import '../widgets/container_transform_page.dart';
 import 'app_routes.dart';
@@ -69,6 +70,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.calendar,
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, s) => _sharedAxis(s, const CalendarScreen()),
+      ),
+      GoRoute(
+        path: AppRoutes.varta,
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => _sharedAxis(s, const VartaScreen()),
       ),
       GoRoute(
         path: AppRoutes.lyrics,

@@ -11,6 +11,7 @@ abstract final class AppRoutes {
   // Pushed screens
   static const calendar = '/calendar';
   static const search = '/search';
+  static const varta = '/varta';
   static const lyrics = '/lyrics/:id';
   static String lyricsFor(String id) => '/lyrics/$id';
 }
