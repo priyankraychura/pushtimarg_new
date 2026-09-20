@@ -11,6 +11,14 @@ class Seva {
   final String kirtan;
   final int kirtanCount;
 
+  // Value equality so it can key a provider family.
+  @override
+  bool operator ==(Object other) =>
+      other is Seva && other.name == name && other.time == time && other.kirtan == kirtan && other.kirtanCount == kirtanCount;
+
+  @override
+  int get hashCode => Object.hash(name, time, kirtan, kirtanCount);
+
   /// Sample kirtan per seva. In production this comes from a `sevas` doc.
   static const Map<String, (String, int)> defaultKirtans = {
     'Mangala': ('Jago Mohan Pyare', 4),

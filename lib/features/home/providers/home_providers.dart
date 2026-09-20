@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../bhajans/domain/bhajan.dart';
+import '../../bhajans/providers/bhajan_providers.dart';
 import '../../settings/providers/settings_providers.dart';
 import '../domain/seva.dart';
 
@@ -25,3 +27,11 @@ const ashtachhapPoets = [
   ('छी', 'Chhitswami'),
   ('च', 'Chaturbhujdas'),
 ];
+
+/// The bhajan a seva card / "Read" button opens: the seva's named kirtan if we
+/// have it, else the first bhajan sung at that seva.
+final bhajanForSevaProvider = Provider.family<Bhajan?, Seva>((ref, seva) {
+  final bhajans = ref.watch(allBhajansProvider).value ?? const <Bhajan>[];
+  return bhajans.where((b) => b.titleEn == seva.kirtan).firstOrNull ??
+      bhajans.where((b) => b.sevas.contains(seva.name)).firstOrNull;
+});

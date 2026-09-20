@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/router/app_routes.dart';
 
 import '../../../../core/theme/theme.dart';
 import '../../../../core/utils/context_extensions.dart';
@@ -65,15 +68,16 @@ class _SevaRailState extends ConsumerState<SevaRail> {
   }
 }
 
-class _SevaCard extends StatelessWidget {
+class _SevaCard extends ConsumerWidget {
   const _SevaCard({required this.seva, required this.status});
   final Seva seva;
   final SevaStatus status;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final live = status == SevaStatus.live;
+    final bhajan = ref.watch(bhajanForSevaProvider(seva));
     return AnimatedOpacity(
       duration: AppMotion.normal,
       opacity: status == SevaStatus.done ? .6 : 1,
@@ -82,6 +86,10 @@ class _SevaCard extends StatelessWidget {
         radius: AppRadius.xl,
         color: live ? c.accentSoft : null,
         borderColor: live ? c.accent : null,
+        // Opens the seva's kirtan, expanding from this card.
+        onTap: bhajan == null
+            ? null
+            : () => context.push(AppRoutes.lyricsFor(bhajan.id), extra: ContainerOrigin.of(context, radius: AppRadius.xl)),
         child: SizedBox(
           width: AppSizes.sevaCard - AppSpacing.md * 2,
           child: Column(

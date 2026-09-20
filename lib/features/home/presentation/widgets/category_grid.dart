@@ -14,13 +14,6 @@ import '../../../bhajans/providers/bhajan_providers.dart';
 class CategoryGrid extends ConsumerWidget {
   const CategoryGrid({super.key});
 
-  static const _icons = {
-    BhajanCategory.aarti: (Icons.local_fire_department_outlined, IconTileTone.accent),
-    BhajanCategory.kirtan: (Icons.music_note_outlined, IconTileTone.brand),
-    BhajanCategory.pad: (Icons.auto_stories_outlined, IconTileTone.rose),
-    BhajanCategory.vasta: (Icons.spa_outlined, IconTileTone.accent),
-  };
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
@@ -41,7 +34,7 @@ class CategoryGrid extends ConsumerWidget {
                 },
                 child: Column(
                   children: [
-                    IconTile(icon: _icons[cat]!.$1, tone: _icons[cat]!.$2),
+                    IconTile(icon: cat.icon, tone: cat.tone),
                     Gap.xs,
                     Text(cat.label, style: AppTypography.labelMedium.copyWith(fontSize: 13, color: c.ink)),
                     Text('${all.where((b) => b.category == cat).length}',

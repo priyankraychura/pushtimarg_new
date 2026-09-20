@@ -81,8 +81,8 @@ class ReaderControls extends StatelessWidget {
         ),
       ),
     );
-    // Full-width pill with Auto-scroll; a compact centred one without.
-    return onToggleAutoScroll != null ? pill : Center(child: pill);
+    // Full-width pill with Auto-scroll; a compact one floating right without.
+    return onToggleAutoScroll != null ? pill : Align(alignment: Alignment.centerRight, child: pill);
   }
 
   void _showTextSize(BuildContext context) {

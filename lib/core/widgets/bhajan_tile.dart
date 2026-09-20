@@ -4,9 +4,9 @@ import '../../features/bhajans/domain/bhajan.dart';
 import '../theme/theme.dart';
 import '../utils/context_extensions.dart';
 import 'app_chip.dart';
-import 'raga_tile.dart';
+import 'category_tile.dart';
 
-/// One bhajan row — raga tile, Gujarati title + transliteration, seva,
+/// One bhajan row — category tile, Gujarati title + transliteration, seva,
 /// and a favourite heart.
 /// Shared by Home and Bhajans so both lists look identical.
 class BhajanTile extends StatelessWidget {
@@ -64,7 +64,7 @@ class BhajanTile extends StatelessWidget {
               : null,
           child: Row(
             children: [
-              RagaTile(bhajan.raga),
+              CategoryTile(bhajan.category),
               Gap.md,
               Expanded(
                 child: Column(
@@ -93,12 +93,10 @@ class BhajanTile extends StatelessWidget {
                         ],
                       ],
                     ),
-                    Gap.xxs,
                     Text(bhajan.titleEn,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTypography.caption.copyWith(fontSize: 12, color: c.ink3)),
-                    Gap.xxs,
                     Text(bhajan.primarySeva,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

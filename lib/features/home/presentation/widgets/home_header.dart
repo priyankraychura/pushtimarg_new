@@ -8,7 +8,6 @@ import '../../../../core/theme/theme.dart';
 import '../../../../core/utils/context_extensions.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../auth/providers/auth_providers.dart';
-import '../../../bhajans/providers/bhajan_providers.dart';
 import '../../../calendar/providers/calendar_providers.dart';
 import '../../../settings/providers/settings_providers.dart';
 import '../../providers/home_providers.dart';
@@ -25,13 +24,8 @@ class HomeHeader extends ConsumerWidget {
     final seva = ref.watch(currentSevaProvider).value;
     final tithi = ref.watch(todayTithiProvider).value;
     final showTithi = ref.watch(settingsProvider.select((s) => s.showTithi));
-    final bhajans = ref.watch(allBhajansProvider).value ?? const [];
 
-    // The bhajan the "Read" button opens: the current seva's kirtan if we have it.
-    final nowBhajan = seva == null
-        ? null
-        : bhajans.where((b) => b.titleEn == seva.kirtan).firstOrNull ??
-            bhajans.where((b) => b.sevas.contains(seva.name)).firstOrNull;
+    final nowBhajan = seva == null ? null : ref.watch(bhajanForSevaProvider(seva));
 
     final dateLabel = DateFormat('EEEE, d MMM').format(DateTime.now());
     final tithiLabel = showTithi && tithi != null ? '${tithi.fullLabel} · $dateLabel' : dateLabel;
