@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart' as fb;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../domain/app_user.dart';
@@ -52,6 +53,11 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<AppUser> signInWithGoogle() => _guard(() async {
+        // On web Firebase's popup flow works without a client-id meta tag.
+        if (kIsWeb) {
+          final cred = await _auth.signInWithPopup(fb.GoogleAuthProvider());
+          return _map(cred.user)!;
+        }
         final google = GoogleSignIn.instance;
         if (!_googleReady) {
           await google.initialize();
@@ -82,7 +88,7 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<void> signOut() async {
     await _auth.signOut();
-    if (_googleReady) await GoogleSignIn.instance.signOut();
+    if (_googleReady && !kIsWeb) await GoogleSignIn.instance.signOut();
   }
 
   AppUser? _map(fb.User? u) {

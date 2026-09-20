@@ -23,14 +23,24 @@ class AppAvatar extends StatelessWidget {
         color: c.accent,
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white.withValues(alpha: .35), width: 2),
-        image: photoUrl == null ? null : DecorationImage(image: NetworkImage(photoUrl!), fit: BoxFit.cover),
       ),
+      clipBehavior: Clip.antiAlias,
       child: photoUrl != null
-          ? null
-          : Text(initial,
-              style: AppTypography.labelLarge.copyWith(fontSize: size * .38, color: c.onAccent)),
+          // Google photo hosts block CORS on web, so let the web build fall
+          // back to a plain <img> element; the initial shows if that fails too.
+          ? Image.network(
+              photoUrl!,
+              fit: BoxFit.cover,
+              width: size,
+              height: size,
+              webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+              errorBuilder: (_, _, _) => Text(initial, style: _style(c)),
+            )
+          : Text(initial, style: _style(c)),
     );
   }
+
+  TextStyle _style(AppColors c) => AppTypography.labelLarge.copyWith(fontSize: size * .38, color: c.onAccent);
 }
 
 /// Square tinted icon tile — category grid (46) and settings rows (34).

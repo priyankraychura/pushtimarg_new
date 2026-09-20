@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +7,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/utils/context_extensions.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../auth/providers/auth_providers.dart';
+import '../../bhajans/data/seed.dart';
 import '../../bhajans/providers/bhajan_providers.dart';
 import '../../lyrics/domain/lyrics.dart';
 import '../domain/app_settings.dart';
@@ -163,6 +165,14 @@ class SettingsScreen extends ConsumerWidget {
             ),
             const SettingsRow(icon: Icons.edit_outlined, tone: IconTileTone.accent, label: 'Suggest a bhajan or report a mistake'),
             const SettingsRow(icon: Icons.star_outline_rounded, tone: IconTileTone.accent, label: 'Rate the app'),
+            if (kDebugMode && !AppConfig.demoMode)
+              SettingsRow(
+                icon: Icons.cloud_upload_outlined,
+                tone: IconTileTone.accent,
+                label: 'Seed sample data',
+                description: 'Debug · writes sample bhajans to Firestore',
+                onTap: () => _seed(context),
+              ),
           ]),
 
           Gap.xxl,
@@ -185,6 +195,16 @@ class SettingsScreen extends ConsumerWidget {
 
   Widget _dot(Color color) =>
       Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle));
+
+  Future<void> _seed(BuildContext context) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final n = await seedFirestore();
+      messenger.showSnackBar(SnackBar(content: Text('Seeded $n bhajans')));
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('Seed failed: $e')));
+    }
+  }
 
   Future<void> _pick<T>(
     BuildContext context,
