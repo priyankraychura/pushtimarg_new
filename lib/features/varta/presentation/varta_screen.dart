@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/utils/context_extensions.dart';
 import '../../../core/widgets/widgets.dart';
@@ -32,8 +34,7 @@ class VartaScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Varta', style: AppTypography.titleLarge.copyWith(color: c.ink)),
-                      Text('Vaishnav ni vartao',
-                          style: AppTypography.caption.copyWith(fontSize: 12, color: c.ink3)),
+                      Text('Vaishnav ni vartao', style: AppTypography.caption.copyWith(fontSize: 12, color: c.ink3)),
                     ],
                   ),
                 ),
@@ -78,10 +79,7 @@ class _VartaOptionCard extends StatelessWidget {
     return AppCard(
       radius: AppRadius.card,
       padding: const EdgeInsets.all(AppSpacing.lg),
-      // TODO: open the varta list for this granth once its data lands.
-      onTap: () => ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text('${collection.title} — coming soon'))),
+      onTap: () => context.push(AppRoutes.vartaListFor(collection.name)),
       child: Row(
         children: [
           _CountBadge(count: collection.count),
@@ -92,11 +90,15 @@ class _VartaOptionCard extends StatelessWidget {
               children: [
                 Text(collection.title, style: AppTypography.titleMedium.copyWith(color: c.ink)),
                 Gap.xxs,
-                Text(collection.titleGu,
-                    style: AppTypography.gujarati(AppTypography.bodySmall).copyWith(color: c.ink2)),
+                Text(
+                  collection.titleGu,
+                  style: AppTypography.gujarati(AppTypography.bodySmall).copyWith(color: c.ink2),
+                ),
                 Gap.xs,
-                Text(collection.description,
-                    style: AppTypography.caption.copyWith(fontSize: 12, height: 1.3, color: c.ink3)),
+                Text(
+                  collection.description,
+                  style: AppTypography.caption.copyWith(fontSize: 12, height: 1.3, color: c.ink3),
+                ),
               ],
             ),
           ),

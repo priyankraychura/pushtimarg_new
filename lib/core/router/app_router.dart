@@ -13,6 +13,9 @@ import '../../features/home/presentation/home_screen.dart';
 import '../../features/lyrics/presentation/lyrics_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/shell/presentation/app_shell.dart';
+import '../../features/varta/domain/varta_collection.dart';
+import '../../features/varta/presentation/varta_list_screen.dart';
+import '../../features/varta/presentation/varta_reader_screen.dart';
 import '../../features/varta/presentation/varta_screen.dart';
 import '../theme/theme.dart';
 import '../widgets/container_transform_page.dart';
@@ -75,6 +78,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.varta,
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, s) => _sharedAxis(s, const VartaScreen()),
+      ),
+      GoRoute(
+        path: AppRoutes.vartaList,
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => _sharedAxis(
+          s,
+          VartaListScreen(collection: VartaCollection.fromKey(s.pathParameters['collection'])),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.vartaRead,
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => _sharedAxis(s, VartaReaderScreen(vartaId: s.pathParameters['id']!)),
       ),
       GoRoute(
         path: AppRoutes.lyrics,

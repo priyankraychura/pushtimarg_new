@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme.dart';
+import '../../../../core/utils/gujarati_digits.dart';
 import '../../domain/lyrics.dart';
 
 /// One shloka: marigold "॥ ૩ ॥" marker + its lines. While auto-scrolling the
@@ -52,7 +53,7 @@ class LyricStanza extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '॥ ${_gujaratiDigits(index + 1)} ॥',
+          '॥ ${gujaratiDigits(index + 1)} ॥',
           style: AppTypography.overline.copyWith(fontSize: 12, letterSpacing: 2, color: AppPalette.marigold),
         ),
         const SizedBox(height: 8),
@@ -74,10 +75,5 @@ class LyricStanza extends StatelessWidget {
         ],
       ],
     );
-  }
-
-  static String _gujaratiDigits(int n) {
-    const digits = ['૦', '૧', '૨', '૩', '૪', '૫', '૬', '૭', '૮', '૯'];
-    return n.toString().split('').map((d) => digits[int.parse(d)]).join();
   }
 }

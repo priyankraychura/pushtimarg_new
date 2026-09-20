@@ -12,9 +12,9 @@ class VartaPrasang {
   final List<String> paragraphs;
 
   factory VartaPrasang.fromMap(Map<String, dynamic> m) => VartaPrasang(
-        number: (m['number'] as num?)?.toInt() ?? 0,
-        paragraphs: List<String>.from(m['paragraphs'] as List? ?? const []),
-      );
+    number: (m['number'] as num?)?.toInt() ?? 0,
+    paragraphs: List<String>.from(m['paragraphs'] as List? ?? const []),
+  );
 
   Map<String, dynamic> toMap() => {'number': number, 'paragraphs': paragraphs};
 }
@@ -25,12 +25,7 @@ class VartaPrasang {
 /// after the main one (Govindswami → his sister Kanhbai).
 @immutable
 class VartaSection {
-  const VartaSection({
-    required this.title,
-    this.prasangs = const [],
-    this.saar = const [],
-    this.notes = const [],
-  });
+  const VartaSection({required this.title, this.prasangs = const [], this.saar = const [], this.notes = const []});
 
   /// Heading line, e.g. "શ્રી ગુસાંઈજીના સેવક ગોવિંદસ્વામી … તેમની વાર્તા".
   final String title;
@@ -41,20 +36,20 @@ class VartaSection {
   final List<String> notes;
 
   factory VartaSection.fromMap(Map<String, dynamic> m) => VartaSection(
-        title: m['title'] as String? ?? '',
-        prasangs: [
-          for (final p in m['prasangs'] as List? ?? const []) VartaPrasang.fromMap(Map<String, dynamic>.from(p as Map)),
-        ],
-        saar: List<String>.from(m['saar'] as List? ?? const []),
-        notes: List<String>.from(m['notes'] as List? ?? const []),
-      );
+    title: m['title'] as String? ?? '',
+    prasangs: [
+      for (final p in m['prasangs'] as List? ?? const []) VartaPrasang.fromMap(Map<String, dynamic>.from(p as Map)),
+    ],
+    saar: List<String>.from(m['saar'] as List? ?? const []),
+    notes: List<String>.from(m['notes'] as List? ?? const []),
+  );
 
   Map<String, dynamic> toMap() => {
-        'title': title,
-        'prasangs': [for (final p in prasangs) p.toMap()],
-        'saar': saar,
-        'notes': notes,
-      };
+    'title': title,
+    'prasangs': [for (final p in prasangs) p.toMap()],
+    'saar': saar,
+    'notes': notes,
+  };
 }
 
 /// One varta of the 84 or 252 granth. Whole text is bundled in the doc since
@@ -93,25 +88,25 @@ class Varta {
   int get prasangCount => sections.fold(0, (n, s) => n + s.prasangs.length);
 
   factory Varta.fromMap(String id, Map<String, dynamic> m) => Varta(
-        id: id,
-        collection: VartaCollection.fromKey(m['collection'] as String?),
-        number: (m['number'] as num?)?.toInt() ?? 0,
-        name: m['name'] as String? ?? '',
-        nameEn: m['nameEn'] as String? ?? '',
-        subtitle: m['subtitle'] as String? ?? '',
-        sections: [
-          for (final s in m['sections'] as List? ?? const []) VartaSection.fromMap(Map<String, dynamic>.from(s as Map)),
-        ],
-      );
+    id: id,
+    collection: VartaCollection.fromKey(m['collection'] as String?),
+    number: (m['number'] as num?)?.toInt() ?? 0,
+    name: m['name'] as String? ?? '',
+    nameEn: m['nameEn'] as String? ?? '',
+    subtitle: m['subtitle'] as String? ?? '',
+    sections: [
+      for (final s in m['sections'] as List? ?? const []) VartaSection.fromMap(Map<String, dynamic>.from(s as Map)),
+    ],
+  );
 
   Map<String, dynamic> toMap() => {
-        'collection': collection.name,
-        'number': number,
-        'name': name,
-        'nameEn': nameEn,
-        'subtitle': subtitle,
-        'sections': [for (final s in sections) s.toMap()],
-      };
+    'collection': collection.name,
+    'number': number,
+    'name': name,
+    'nameEn': nameEn,
+    'subtitle': subtitle,
+    'sections': [for (final s in sections) s.toMap()],
+  };
 
   bool matches(String query) {
     final q = query.trim().toLowerCase();

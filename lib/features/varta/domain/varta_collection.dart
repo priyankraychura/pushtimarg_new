@@ -14,12 +14,7 @@ enum VartaCollection {
     description: 'Vartas of the 252 Vaishnavs of Shri Gusaiji Vitthalnathji.',
   );
 
-  const VartaCollection({
-    required this.count,
-    required this.title,
-    required this.titleGu,
-    required this.description,
-  });
+  const VartaCollection({required this.count, required this.title, required this.titleGu, required this.description});
 
   /// Number of vartas in the granth; also the number shown on its card.
   final int count;
@@ -27,8 +22,6 @@ enum VartaCollection {
   final String titleGu;
   final String description;
 
-  static VartaCollection fromKey(String? key) => values.firstWhere(
-        (v) => v.name == key,
-        orElse: () => VartaCollection.chaurasi,
-      );
+  static VartaCollection fromKey(String? key) =>
+      values.firstWhere((v) => v.name == key, orElse: () => VartaCollection.chaurasi);
 }

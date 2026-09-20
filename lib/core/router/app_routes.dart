@@ -12,6 +12,10 @@ abstract final class AppRoutes {
   static const calendar = '/calendar';
   static const search = '/search';
   static const varta = '/varta';
+  static const vartaList = '/varta/:collection';
+  static String vartaListFor(String collection) => '/varta/$collection';
+  static const vartaRead = '/varta/:collection/:id';
+  static String vartaReadFor(String collection, String id) => '/varta/$collection/$id';
   static const lyrics = '/lyrics/:id';
   static String lyricsFor(String id) => '/lyrics/$id';
 }
