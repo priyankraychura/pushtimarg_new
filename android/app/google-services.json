@@ -12,7 +12,20 @@
           "package_name": "com.pushtimarg.pushti_kirtan"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "415112952875-ijl0hp2d5pkf87b1pbcuvvgeb50qoiuv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pushtimarg.pushti_kirtan",
+            "certificate_hash": "21cca18c1f0119a92b7958d98178fed225840c6b"
+          }
+        },
+        {
+          "client_id": "415112952875-k9vp8h3l1p3ddi0h8hg1eji56udnf9nd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDzISKkqbrREGm0-GbG-Vu30lg2YCgV3iA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415112952875-k9vp8h3l1p3ddi0h8hg1eji56udnf9nd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "415112952875-dojpc9mav668742nu93h5ckko2soar9f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pushtimarg.pushtiKirtan"
+              }
+            }
+          ]
         }
       }
     }
