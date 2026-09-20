@@ -211,6 +211,7 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
               lines: stanzas[i],
               firstLineIndex: offsets[i],
               currentLine: reader.currentLine,
+              highlight: reader.autoScrolling,
               textScale: settings.textScale,
               script: script,
               lineKeys: _lineKeys,

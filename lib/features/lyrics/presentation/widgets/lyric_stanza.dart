@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/theme.dart';
 import '../../domain/lyrics.dart';
 
-/// One shloka: marigold "॥ ૩ ॥" marker + its lines. The current line is
-/// white, siblings in the current stanza are soft, everything else faded.
+/// One shloka: marigold "॥ ૩ ॥" marker + its lines. While auto-scrolling the
+/// current line is white, siblings in its stanza soft, everything else faded;
+/// otherwise all lines are white.
 class LyricStanza extends StatelessWidget {
   const LyricStanza({
     super.key,
@@ -12,6 +13,7 @@ class LyricStanza extends StatelessWidget {
     required this.lines,
     required this.firstLineIndex,
     required this.currentLine,
+    this.highlight = true,
     required this.textScale,
     required this.script,
     required this.lineKeys,
@@ -21,6 +23,9 @@ class LyricStanza extends StatelessWidget {
   final List<String> lines;
   final int firstLineIndex;
   final int currentLine;
+
+  /// When false every line is full-brightness (reader idle, not auto-scrolling).
+  final bool highlight;
   final double textScale;
   final Script script;
 
@@ -57,7 +62,7 @@ class LyricStanza extends StatelessWidget {
             duration: AppMotion.normal,
             curve: AppMotion.standard,
             style: style.copyWith(
-              color: firstLineIndex + i == currentLine
+              color: !highlight || firstLineIndex + i == currentLine
                   ? _white
                   : isCurrentStanza
                       ? _soft
