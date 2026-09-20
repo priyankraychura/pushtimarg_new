@@ -21,7 +21,7 @@ class AppSettings {
     this.autoScrollEnabled = false,
     this.autoScroll = AutoScrollSpeed.medium,
     this.keepAwake = true,
-    this.themeMode = ThemeMode.system,
+    this.themeMode = ThemeMode.light,
     this.remindBeforeSeva = true,
     this.reminderMinutes = 10,
     this.showTithi = true,
@@ -100,7 +100,7 @@ class AppSettings {
       keepAwake: m['keepAwake'] as bool? ?? true,
       themeMode: ThemeMode.values.firstWhere(
         (t) => t.name == m['themeMode'],
-        orElse: () => ThemeMode.system,
+        orElse: () => ThemeMode.light,
       ),
       remindBeforeSeva: m['remindBeforeSeva'] as bool? ?? true,
       reminderMinutes: (m['reminderMinutes'] as num?)?.toInt() ?? 10,

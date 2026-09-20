@@ -1,72 +1,60 @@
 import '../domain/bhajan.dart';
 
 /// Bundled sample content so the app runs before Firestore has data.
-/// Also handy as a seed: `for (final b in sampleBhajans) col.doc(b.id).set(b.toMap())`.
-///
+/// Also the seed: Settings > "Seed sample data" pushes this to Firestore.
 /// Lyrics for these live in `sample_lyrics.dart`.
 const List<Bhajan> sampleBhajans = [
+  Bhajan(
+    id: 'aarti-shrinathji-mangala',
+    title: 'આરતી શ્રીનાથજીની (મંગળા)',
+    category: BhajanCategory.aarti,
+    poet: '',
+    seva: 'Mangala',
+    video: 'nL6guAGD-Mk',
+  ),
+  Bhajan(
+    id: 'jai-jai-shri-yamuna-ma',
+    title: 'જય જય શ્રી યમુના મા',
+    category: BhajanCategory.aarti,
+    poet: '',
+    seva: 'Sandhya Aarti',
+  ),
+  Bhajan(
+    id: 'krushnashray',
+    title: 'શ્રી કૃષ્ણાશ્રય',
+    category: BhajanCategory.kirtan,
+    poet: 'Shri Vallabhacharya',
+    seva: '',
+  ),
+  Bhajan(
+    id: 'giriraj-dharyashtakam',
+    title: 'શ્રી ગિરિરાજધાર્યાષ્ટકમ્',
+    category: BhajanCategory.kirtan,
+    poet: 'Shri Vallabhacharya',
+    seva: '',
+  ),
+  Bhajan(
+    id: 'vaake-ambode-shrinathji',
+    title: 'વાંકે અંબોડે શ્રીનાથજી',
+    category: BhajanCategory.kirtan,
+    poet: 'Madhavdas',
+    seva: 'Shringar',
+    video: 'nL6guAGD-Mk',
+  ),
+  Bhajan(
+    id: 'yamunajini-stuti',
+    title: 'શ્રી યમુનાજીની સ્તુતિ',
+    category: BhajanCategory.kirtan,
+    poet: '',
+    seva: '',
+    video: 'cI2e6bLgeiM',
+  ),
   Bhajan(
     id: 'yamunashtak',
     title: 'શ્રી યમુનાષ્ટક',
     category: BhajanCategory.kirtan,
     poet: 'Shri Vallabhacharya',
     seva: 'Rajbhog',
-  ),
-  Bhajan(
-    id: 'madhurashtakam',
-    title: 'મધુરાષ્ટકમ્',
-    category: BhajanCategory.kirtan,
-    poet: 'Shri Vallabhacharya',
-    seva: 'Rajbhog',
-  ),
-  Bhajan(
-    id: 'chalo-sakhi-yamuna-tat',
-    title: 'ચલો સખી યમુના તટ',
-    category: BhajanCategory.kirtan,
-    poet: 'Surdas',
-    seva: 'Gwal',
-  ),
-  Bhajan(
-    id: 'aarti-yamunaji',
-    title: 'આરતી શ્રી યમુનાજી ની',
-    category: BhajanCategory.aarti,
-    poet: 'Paramananddas',
-    seva: 'Sandhya Aarti',
-  ),
-  Bhajan(
-    id: 'aarti-shrinathji',
-    title: 'આરતી શ્રીનાથજી ની',
-    category: BhajanCategory.aarti,
-    poet: 'Paramananddas',
-    seva: 'Sandhya Aarti',
-  ),
-  Bhajan(
-    id: 'jago-mohan-pyare',
-    title: 'જાગો મોહન પ્યારે',
-    category: BhajanCategory.kirtan,
-    poet: 'Surdas',
-    seva: 'Mangala',
-  ),
-  Bhajan(
-    id: 'jai-jai-shri-vallabh',
-    title: 'જય જય શ્રી વલ્લભ',
-    category: BhajanCategory.varta,
-    poet: 'Traditional',
-    seva: 'Shayan',
-    tags: ['vadhai'],
-  ),
-  Bhajan(
-    id: 'maiya-mori',
-    title: 'મૈયા મોરી મૈં નહીં માખન ખાયો',
-    category: BhajanCategory.pad,
-    poet: 'Surdas',
-    seva: 'Gwal',
-  ),
-  Bhajan(
-    id: 'sarvottam-stotra',
-    title: 'શ્રી સર્વોત્તમ સ્તોત્ર',
-    category: BhajanCategory.kirtan,
-    poet: 'Shri Gusainji',
-    seva: 'Rajbhog',
+    video: 'nL6guAGD-Mk',
   ),
 ];
