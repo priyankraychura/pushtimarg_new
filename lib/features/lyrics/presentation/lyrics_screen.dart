@@ -134,12 +134,11 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
         : settings.script;
 
     return Scaffold(
-      body: AnimatedContainer(
-        duration: AppMotion.slow,
-        decoration: BoxDecoration(gradient: _background(reader.dim)),
+      body: DecoratedBox(
+        decoration: const BoxDecoration(gradient: _background),
         child: Stack(
           children: [
-            if (!reader.dim) const Positioned.fill(child: _Glow()),
+            const Positioned.fill(child: _Glow()),
             SafeArea(
               bottom: false,
               child: Column(
@@ -212,10 +211,9 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
               bottom: context.safe.bottom + 22,
               child: ReaderControls(
                 autoScrolling: reader.autoScrolling,
-                dim: reader.dim,
                 textScale: settings.textScale,
-                onToggleAutoScroll: ref.read(readerProvider.notifier).toggleAutoScroll,
-                onToggleDim: ref.read(readerProvider.notifier).toggleDim,
+                onToggleAutoScroll:
+                    settings.autoScrollEnabled ? ref.read(readerProvider.notifier).toggleAutoScroll : null,
                 onTextScale: ref.read(settingsProvider.notifier).setTextScale,
               ),
             ),
@@ -225,18 +223,12 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
     );
   }
 
-  static LinearGradient _background(bool dim) => dim
-      ? const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [AppPalette.readerDim, Color(0xFF040D11)],
-        )
-      : const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0, .6, 1],
-          colors: [AppPalette.readerTop, AppPalette.readerMid, AppPalette.readerBottom],
-        );
+  static const _background = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: [0, .6, 1],
+    colors: [AppPalette.readerTop, AppPalette.readerMid, AppPalette.readerBottom],
+  );
 }
 
 /// Rose + marigold radial glow over the gradient, as on the mockup.

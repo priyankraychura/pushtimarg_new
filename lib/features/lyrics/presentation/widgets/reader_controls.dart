@@ -4,28 +4,25 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme.dart';
 
-/// Frosted control pill: text size · Auto-scroll · dim (moon).
+/// Frosted control pill: text size · Auto-scroll. With [onToggleAutoScroll]
+/// null (setting off) it collapses to just the text-size button.
 class ReaderControls extends StatelessWidget {
   const ReaderControls({
     super.key,
     required this.autoScrolling,
-    required this.dim,
     required this.textScale,
     required this.onToggleAutoScroll,
-    required this.onToggleDim,
     required this.onTextScale,
   });
 
   final bool autoScrolling;
-  final bool dim;
   final double textScale;
-  final VoidCallback onToggleAutoScroll;
-  final VoidCallback onToggleDim;
+  final VoidCallback? onToggleAutoScroll;
   final ValueChanged<double> onTextScale;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    final pill = ClipRRect(
       borderRadius: AppRadius.r(AppRadius.pill),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
@@ -36,52 +33,56 @@ class ReaderControls extends StatelessWidget {
             border: Border.all(color: Colors.white.withValues(alpha: .18)),
             borderRadius: AppRadius.r(AppRadius.pill),
             boxShadow: [
-              BoxShadow(color: Colors.black.withValues(alpha: .6), blurRadius: 36, offset: const Offset(0, 16), spreadRadius: -14),
+              BoxShadow(
+                color: Colors.black.withValues(alpha: .6),
+                blurRadius: 36,
+                offset: const Offset(0, 16),
+                spreadRadius: -14,
+              ),
             ],
           ),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              _GlassButton(
-                icon: Icons.format_size_rounded,
-                onTap: () => _showTextSize(context),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: GestureDetector(
-                  onTap: onToggleAutoScroll,
-                  child: AnimatedContainer(
-                    duration: AppMotion.fast,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: autoScrolling ? Colors.white : AppPalette.marigold,
-                      borderRadius: AppRadius.r(AppRadius.pill),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(autoScrolling ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                            size: 20, color: AppPalette.onMarigold),
-                        const SizedBox(width: 6),
-                        Text(
-                          autoScrolling ? 'Pause' : 'Auto-scroll',
-                          style: AppTypography.labelLarge.copyWith(color: AppPalette.onMarigold),
-                        ),
-                      ],
+              _GlassButton(icon: Icons.format_size_rounded, onTap: () => _showTextSize(context)),
+              if (onToggleAutoScroll != null) ...[
+                const SizedBox(width: 6),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: onToggleAutoScroll,
+                    child: AnimatedContainer(
+                      duration: AppMotion.fast,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: autoScrolling ? Colors.white : AppPalette.marigold,
+                        borderRadius: AppRadius.r(AppRadius.pill),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            autoScrolling ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                            size: 20,
+                            color: AppPalette.onMarigold,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            autoScrolling ? 'Pause' : 'Auto-scroll',
+                            style: AppTypography.labelLarge.copyWith(color: AppPalette.onMarigold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 6),
-              _GlassButton(
-                icon: dim ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-                active: dim,
-                onTap: onToggleDim,
-              ),
+              ],
             ],
           ),
         ),
       ),
     );
+    // Full-width pill with Auto-scroll; a compact centred one without.
+    return onToggleAutoScroll != null ? pill : Center(child: pill);
   }
 
   void _showTextSize(BuildContext context) {
@@ -95,24 +96,19 @@ class ReaderControls extends StatelessWidget {
 }
 
 class _GlassButton extends StatelessWidget {
-  const _GlassButton({required this.icon, required this.onTap, this.active = false});
+  const _GlassButton({required this.icon, required this.onTap});
   final IconData icon;
   final VoidCallback onTap;
-  final bool active;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: active ? Colors.white : Colors.white.withValues(alpha: .12),
+      color: Colors.white.withValues(alpha: .12),
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
-        child: SizedBox(
-          width: 44,
-          height: 44,
-          child: Icon(icon, size: 22, color: active ? AppPalette.readerMid : Colors.white),
-        ),
+        child: SizedBox(width: 44, height: 44, child: Icon(icon, size: 22, color: Colors.white)),
       ),
     );
   }
@@ -141,8 +137,10 @@ class _TextSizeSheetState extends State<_TextSizeSheet> {
           children: [
             Text('Text size', style: AppTypography.titleLarge.copyWith(color: Colors.white)),
             const SizedBox(height: 4),
-            Text('નમામિ યમુનામહં સકલ સિદ્ધિ હેતું મુદા',
-                style: AppTypography.lyric.copyWith(fontSize: AppTypography.lyric.fontSize! * _v, color: Colors.white)),
+            Text(
+              'નમામિ યમુનામહં સકલ સિદ્ધિ હેતું મુદા',
+              style: AppTypography.lyric.copyWith(fontSize: AppTypography.lyric.fontSize! * _v, color: Colors.white),
+            ),
             const SizedBox(height: 12),
             Row(
               children: [

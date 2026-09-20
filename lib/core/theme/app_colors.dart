@@ -40,7 +40,6 @@ abstract final class AppPalette {
   static const Color readerTop = Color(0xFF1E5A70);
   static const Color readerMid = Color(0xFF16465A);
   static const Color readerBottom = Color(0xFF10323F);
-  static const Color readerDim = Color(0xFF071A22); // "moon" dim mode
 }
 
 /// Semantic colour tokens, available via `context.colors`.

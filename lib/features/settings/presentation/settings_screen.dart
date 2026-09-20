@@ -91,13 +91,21 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            SettingsRow(
+            SettingsRow.toggle(
               icon: Icons.swap_vert_rounded,
-              label: 'Auto-scroll speed',
-              value: s.autoScroll.label,
-              onTap: () => _pick<AutoScrollSpeed>(
-                  context, 'Auto-scroll speed', AutoScrollSpeed.values, s.autoScroll, (v) => v.label, notifier.setAutoScroll),
+              label: 'Auto-scroll',
+              description: 'Show the Auto-scroll button while reading',
+              value: s.autoScrollEnabled,
+              onChanged: notifier.setAutoScrollEnabled,
             ),
+            if (s.autoScrollEnabled)
+              SettingsRow(
+                icon: Icons.speed_rounded,
+                label: 'Auto-scroll speed',
+                value: s.autoScroll.label,
+                onTap: () => _pick<AutoScrollSpeed>(
+                    context, 'Auto-scroll speed', AutoScrollSpeed.values, s.autoScroll, (v) => v.label, notifier.setAutoScroll),
+              ),
             SettingsRow.toggle(
               icon: Icons.phone_android_rounded,
               label: 'Keep screen awake',

@@ -18,6 +18,7 @@ class AppSettings {
   const AppSettings({
     this.script = Script.gujarati,
     this.textScale = 1.0,
+    this.autoScrollEnabled = false,
     this.autoScroll = AutoScrollSpeed.medium,
     this.keepAwake = true,
     this.themeMode = ThemeMode.system,
@@ -31,6 +32,9 @@ class AppSettings {
 
   /// 0.8 – 1.6, applied to lyric text only.
   final double textScale;
+
+  /// Shows the Auto-scroll button in the reader. Off by default.
+  final bool autoScrollEnabled;
   final AutoScrollSpeed autoScroll;
   final bool keepAwake;
   final ThemeMode themeMode;
@@ -44,6 +48,7 @@ class AppSettings {
   AppSettings copyWith({
     Script? script,
     double? textScale,
+    bool? autoScrollEnabled,
     AutoScrollSpeed? autoScroll,
     bool? keepAwake,
     ThemeMode? themeMode,
@@ -55,6 +60,7 @@ class AppSettings {
       AppSettings(
         script: script ?? this.script,
         textScale: textScale ?? this.textScale,
+        autoScrollEnabled: autoScrollEnabled ?? this.autoScrollEnabled,
         autoScroll: autoScroll ?? this.autoScroll,
         keepAwake: keepAwake ?? this.keepAwake,
         themeMode: themeMode ?? this.themeMode,
@@ -67,6 +73,7 @@ class AppSettings {
   Map<String, Object> toMap() => {
         'script': script.key,
         'textScale': textScale,
+        'autoScrollEnabled': autoScrollEnabled,
         'autoScroll': autoScroll.name,
         'keepAwake': keepAwake,
         'themeMode': themeMode.name,
@@ -85,6 +92,7 @@ class AppSettings {
     return AppSettings(
       script: Script.fromKey(m['script'] as String?),
       textScale: (m['textScale'] as num?)?.toDouble() ?? 1.0,
+      autoScrollEnabled: m['autoScrollEnabled'] as bool? ?? false,
       autoScroll: AutoScrollSpeed.values.firstWhere(
         (s) => s.name == m['autoScroll'],
         orElse: () => AutoScrollSpeed.medium,

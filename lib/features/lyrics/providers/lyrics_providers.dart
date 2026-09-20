@@ -15,17 +15,15 @@ final lyricsProvider = FutureProvider.family<Lyrics?, String>(
 );
 
 /// Transient reader state (not persisted): which line is current, whether
-/// auto-scroll is running, dim mode.
+/// auto-scroll is running.
 class ReaderState {
-  const ReaderState({this.currentLine = 0, this.autoScrolling = false, this.dim = false});
+  const ReaderState({this.currentLine = 0, this.autoScrolling = false});
   final int currentLine;
   final bool autoScrolling;
-  final bool dim;
 
-  ReaderState copyWith({int? currentLine, bool? autoScrolling, bool? dim}) => ReaderState(
+  ReaderState copyWith({int? currentLine, bool? autoScrolling}) => ReaderState(
         currentLine: currentLine ?? this.currentLine,
         autoScrolling: autoScrolling ?? this.autoScrolling,
-        dim: dim ?? this.dim,
       );
 }
 
@@ -39,7 +37,6 @@ class ReaderNotifier extends Notifier<ReaderState> {
 
   void toggleAutoScroll() => state = state.copyWith(autoScrolling: !state.autoScrolling);
   void stopAutoScroll() => state = state.copyWith(autoScrolling: false);
-  void toggleDim() => state = state.copyWith(dim: !state.dim);
 }
 
 final readerProvider = NotifierProvider.autoDispose<ReaderNotifier, ReaderState>(ReaderNotifier.new);

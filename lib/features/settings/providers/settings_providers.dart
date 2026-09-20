@@ -27,6 +27,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
 
   Future<void> setScript(Script s) => _update(state.copyWith(script: s));
   Future<void> setTextScale(double v) => _update(state.copyWith(textScale: v.clamp(0.8, 1.6)));
+  Future<void> setAutoScrollEnabled(bool v) => _update(state.copyWith(autoScrollEnabled: v));
   Future<void> setAutoScroll(AutoScrollSpeed s) => _update(state.copyWith(autoScroll: s));
   Future<void> setKeepAwake(bool v) => _update(state.copyWith(keepAwake: v));
   Future<void> setThemeMode(ThemeMode m) => _update(state.copyWith(themeMode: m));

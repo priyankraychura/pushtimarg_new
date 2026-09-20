@@ -70,13 +70,10 @@ class HomeScreen extends ConsumerWidget {
               itemCount: list.length,
               itemBuilder: (context, i) {
                 final b = list[i];
-                final line = userData.progress[b.id];
                 return BhajanTile(
                   bhajan: b,
                   onTap: (tile) => context.push(AppRoutes.lyricsFor(b.id), extra: ContainerOrigin.of(tile)),
                   showDivider: i > 0,
-                  progress: line == null ? null : (line / b.lineCount).clamp(0, 1),
-                  currentLine: line,
                   favourite: userData.favourites.contains(b.id),
                   onFavourite: () => ref.read(userDataProvider.notifier).toggleFavourite(b.id),
                 ).animate().fadeIn(delay: (60 * i).ms, duration: 300.ms);
