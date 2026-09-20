@@ -65,9 +65,9 @@ final filteredBhajansProvider = Provider<List<Bhajan>>((ref) {
       .toList();
   switch (f.sort) {
     case BhajanSort.az:
-      list.sort((a, b) => a.titleEn.compareTo(b.titleEn));
+      list.sort((a, b) => a.title.compareTo(b.title));
     case BhajanSort.seva:
-      list.sort((a, b) => a.primarySeva.compareTo(b.primarySeva));
+      list.sort((a, b) => a.seva.compareTo(b.seva));
     case BhajanSort.poet:
       list.sort((a, b) => a.poet.compareTo(b.poet));
   }

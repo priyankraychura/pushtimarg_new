@@ -7,10 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/utils/context_extensions.dart';
 import '../../../core/utils/keep_awake.dart';
+import '../../bhajans/domain/bhajan.dart';
 import '../../bhajans/providers/bhajan_providers.dart';
+import '../../settings/domain/app_settings.dart';
 import '../../settings/providers/settings_providers.dart';
 import '../../user/providers/user_data_providers.dart';
-import '../domain/lyrics.dart';
 import '../providers/lyrics_providers.dart';
 import 'widgets/lyric_stanza.dart';
 import 'widgets/reader_controls.dart';
@@ -121,17 +122,15 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final all = ref.watch(allBhajansProvider);
     final bhajan = ref.watch(bhajanByIdProvider(widget.bhajanId));
-    final lyrics = ref.watch(lyricsProvider(widget.bhajanId));
     final settings = ref.watch(settingsProvider);
     final reader = ref.watch(readerProvider);
 
     ref.listen(readerProvider.select((s) => s.autoScrolling), (_, on) => _setAutoScroll(on));
     ref.listen(settingsProvider.select((s) => s.keepAwake), (_, on) => KeepAwake.set(on));
 
-    final script = lyrics.value != null && !lyrics.value!.has(settings.script)
-        ? Script.gujarati
-        : settings.script;
+    final script = bhajan != null && !bhajan.has(settings.script) ? Script.gujarati : settings.script;
 
     return Scaffold(
       body: DecoratedBox(
@@ -144,63 +143,24 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
               child: Column(
                 children: [
                   ReaderTopBar(
-                    title: bhajan?.titleGu ?? '',
+                    title: bhajan?.title ?? '',
                     subtitle: [
-                      if (bhajan != null) bhajan.poet,
-                      if (bhajan != null && bhajan.primarySeva.isNotEmpty) bhajan.primarySeva,
-                      if (bhajan != null) bhajan.raga,
+                      if (bhajan != null && bhajan.poet.isNotEmpty) bhajan.poet,
+                      if (bhajan != null && bhajan.seva.isNotEmpty) bhajan.seva,
                     ].join(' · '),
                     bhajanId: widget.bhajanId,
                   ),
                   Expanded(
-                    child: lyrics.when(
-                      loading: () => const Center(child: CircularProgressIndicator(color: Colors.white)),
-                      error: (e, _) => Center(
-                        child: Text('Could not load lyrics.', style: AppTypography.bodyMedium.copyWith(color: Colors.white70)),
-                      ),
-                      data: (data) {
-                        if (data == null) {
-                          return Center(
-                            child: Text('Lyrics coming soon.', style: AppTypography.bodyMedium.copyWith(color: Colors.white70)),
-                          );
-                        }
-                        final stanzas = data.stanzasFor(script);
-                        // Absolute index of each stanza's first line.
-                        final offsets = <int>[];
-                        var n = 0;
-                        for (final s in stanzas) {
-                          offsets.add(n);
-                          n += s.lines.length;
-                        }
-                        return GestureDetector(
-                          onTapDown: (_) => ref.read(readerProvider.notifier).stopAutoScroll(),
-                          child: ListView(
-                            controller: _scroll,
-                            padding: const EdgeInsets.fromLTRB(AppSpacing.xxl, 14, AppSpacing.xxl, 200),
-                            children: [
-                              ScriptPills(
-                                available: [for (final s in Script.values) if (data.has(s)) s],
-                                selected: script,
-                                onSelect: ref.read(settingsProvider.notifier).setScript,
-                              ),
-                              const SizedBox(height: 26),
-                              for (var i = 0; i < stanzas.length; i++) ...[
-                                LyricStanza(
-                                  index: i,
-                                  stanza: stanzas[i],
-                                  firstLineIndex: offsets[i],
-                                  currentLine: reader.currentLine,
-                                  textScale: settings.textScale,
-                                  script: script,
-                                  lineKeys: _lineKeys,
-                                ),
-                                if (i < stanzas.length - 1) const SizedBox(height: 30),
-                              ],
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                    child: switch ((all, bhajan)) {
+                      (AsyncLoading(), _) => const Center(child: CircularProgressIndicator(color: Colors.white)),
+                      (AsyncError(), _) => Center(
+                          child: Text('Could not load lyrics.', style: AppTypography.bodyMedium.copyWith(color: Colors.white70)),
+                        ),
+                      (_, null) || (_, Bhajan(lyrics: Map(isEmpty: true))) => Center(
+                          child: Text('Lyrics coming soon.', style: AppTypography.bodyMedium.copyWith(color: Colors.white70)),
+                        ),
+                      (_, final Bhajan data) => _reader(data, script, settings, reader),
+                    },
                   ),
                 ],
               ),
@@ -219,6 +179,44 @@ class _LyricsScreenState extends ConsumerState<LyricsScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _reader(Bhajan data, Script script, AppSettings settings, ReaderState reader) {
+    final stanzas = data.stanzasFor(script);
+    // Absolute index of each stanza's first line.
+    final offsets = <int>[];
+    var n = 0;
+    for (final s in stanzas) {
+      offsets.add(n);
+      n += s.length;
+    }
+    return GestureDetector(
+      onTapDown: (_) => ref.read(readerProvider.notifier).stopAutoScroll(),
+      child: ListView(
+        controller: _scroll,
+        padding: const EdgeInsets.fromLTRB(AppSpacing.xxl, 14, AppSpacing.xxl, 200),
+        children: [
+          ScriptPills(
+            available: [for (final s in Script.values) if (data.has(s)) s],
+            selected: script,
+            onSelect: ref.read(settingsProvider.notifier).setScript,
+          ),
+          const SizedBox(height: 26),
+          for (var i = 0; i < stanzas.length; i++) ...[
+            LyricStanza(
+              index: i,
+              lines: stanzas[i],
+              firstLineIndex: offsets[i],
+              currentLine: reader.currentLine,
+              textScale: settings.textScale,
+              script: script,
+              lineKeys: _lineKeys,
+            ),
+            if (i < stanzas.length - 1) const SizedBox(height: 30),
+          ],
+        ],
       ),
     );
   }

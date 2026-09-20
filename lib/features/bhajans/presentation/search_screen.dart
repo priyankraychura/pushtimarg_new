@@ -44,7 +44,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final c = context.colors;
     final all = ref.watch(allBhajansProvider).value ?? const <Bhajan>[];
     final results = all.where((b) => b.matches(_query)).toList()
-      ..sort((a, b) => a.titleEn.compareTo(b.titleEn));
+      ..sort((a, b) => a.title.compareTo(b.title));
     final searching = _query.trim().isNotEmpty;
 
     return Scaffold(

@@ -16,7 +16,7 @@ class FirestoreBhajanRepository implements BhajanRepository {
   final CollectionReference<Map<String, dynamic>> _col;
 
   @override
-  Stream<List<Bhajan>> watchAll() => _col.orderBy('title_en').snapshots().map(
+  Stream<List<Bhajan>> watchAll() => _col.orderBy('title').snapshots().map(
         (s) => s.docs.map((d) => Bhajan.fromMap(d.id, d.data())).toList(),
       );
 
@@ -31,7 +31,7 @@ class FirestoreBhajanRepository implements BhajanRepository {
 class SampleBhajanRepository implements BhajanRepository {
   @override
   Stream<List<Bhajan>> watchAll() => Stream.value(
-        [...sampleBhajans]..sort((a, b) => a.titleEn.compareTo(b.titleEn)),
+        [...sampleBhajans]..sort((a, b) => a.title.compareTo(b.title)),
       );
 
   @override

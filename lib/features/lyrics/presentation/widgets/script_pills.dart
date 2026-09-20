@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme.dart';
-import '../../domain/lyrics.dart';
+import '../../../bhajans/domain/bhajan.dart';
 
 /// ગુજરાતી / हिन्दी / English glass pills; active one is solid white.
 class ScriptPills extends StatelessWidget {

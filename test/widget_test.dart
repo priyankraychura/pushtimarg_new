@@ -6,20 +6,30 @@ void main() {
   group('Bhajan.matches', () {
     const b = Bhajan(
       id: 'x',
-      titleGu: 'શ્રી યમુનાષ્ટક',
-      titleEn: 'Shri Yamunashtak',
-      poet: 'Shri Vallabhacharya',
-      raga: 'Bhairav',
+      title: 'શ્રી યમુનાષ્ટક',
       category: BhajanCategory.kirtan,
-      sevas: ['Rajbhog'],
-      lineCount: 36,
+      poet: 'Shri Vallabhacharya',
+      seva: 'Rajbhog',
+      lyrics: {Script.english: ['Namami Yamunam aham']},
     );
 
-    test('matches title, poet and Gujarati', () {
+    test('matches title, poet, lyrics and Gujarati', () {
       expect(b.matches('yamuna'), isTrue);
       expect(b.matches('vallabh'), isTrue);
       expect(b.matches('યમુના'), isTrue);
       expect(b.matches('surdas'), isFalse);
+    });
+  });
+
+  group('Bhajan.stanzasFor', () {
+    test('splits on empty lines', () {
+      const b = Bhajan(
+        id: 'x', title: '', category: BhajanCategory.pad, poet: '', seva: '',
+        lyrics: {Script.gujarati: ['a', 'b', '', 'c', '', '']},
+      );
+      expect(b.stanzasFor(Script.gujarati), [['a', 'b'], ['c']]);
+      expect(b.lineCount, 3);
+      expect(b.firstLine, 'a');
     });
   });
 

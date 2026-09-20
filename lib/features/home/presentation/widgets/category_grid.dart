@@ -9,7 +9,7 @@ import '../../../../core/widgets/widgets.dart';
 import '../../../bhajans/domain/bhajan.dart';
 import '../../../bhajans/providers/bhajan_providers.dart';
 
-/// Four browse tiles — Aarti, Kirtan, Pad, Vasta — with live counts.
+/// Four browse tiles — Aarti, Kirtan, Pad, Varta — with live counts.
 /// Tapping sets the filter and switches to the Bhajans tab.
 class CategoryGrid extends ConsumerWidget {
   const CategoryGrid({super.key});

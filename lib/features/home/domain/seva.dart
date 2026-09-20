@@ -1,35 +1,20 @@
 import 'package:flutter/material.dart';
 
-/// One of the eight daily sevas (ashtayam) with its start time and the
-/// kirtan traditionally sung then.
+/// One of the eight daily sevas (ashtayam) with its start time. The kirtans
+/// sung at it come from bhajans whose `seva` matches [name].
 @immutable
 class Seva {
-  const Seva({required this.name, required this.time, required this.kirtan, required this.kirtanCount});
+  const Seva({required this.name, required this.time});
 
   final String name;
   final TimeOfDay time;
-  final String kirtan;
-  final int kirtanCount;
 
   // Value equality so it can key a provider family.
   @override
-  bool operator ==(Object other) =>
-      other is Seva && other.name == name && other.time == time && other.kirtan == kirtan && other.kirtanCount == kirtanCount;
+  bool operator ==(Object other) => other is Seva && other.name == name && other.time == time;
 
   @override
-  int get hashCode => Object.hash(name, time, kirtan, kirtanCount);
-
-  /// Sample kirtan per seva. In production this comes from a `sevas` doc.
-  static const Map<String, (String, int)> defaultKirtans = {
-    'Mangala': ('Jago Mohan Pyare', 4),
-    'Shringar': ('Banayo Shringar', 6),
-    'Gwal': ('Chalo Sakhi Yamuna Tat', 3),
-    'Rajbhog': ('Shri Yamunashtak', 8),
-    'Utthapan': ('Jago Jago Nandkumar', 2),
-    'Bhog': ('Bhog Dharyo Rasik', 3),
-    'Sandhya Aarti': ('Aarti Shri Yamunaji', 5),
-    'Shayan': ('Podho Shrinathji', 4),
-  };
+  int get hashCode => Object.hash(name, time);
 
   static TimeOfDay parse(String hhmm) {
     final parts = hhmm.split(':');
@@ -49,14 +34,7 @@ enum SevaStatus { done, live, upcoming }
 /// Builds today's schedule and works out which seva is current.
 class SevaSchedule {
   SevaSchedule(Map<String, String> times)
-      : sevas = times.entries
-            .map((e) => Seva(
-                  name: e.key,
-                  time: Seva.parse(e.value),
-                  kirtan: Seva.defaultKirtans[e.key]?.$1 ?? '',
-                  kirtanCount: Seva.defaultKirtans[e.key]?.$2 ?? 0,
-                ))
-            .toList()
+      : sevas = times.entries.map((e) => Seva(name: e.key, time: Seva.parse(e.value))).toList()
           ..sort((a, b) => a.minutes.compareTo(b.minutes));
 
   final List<Seva> sevas;

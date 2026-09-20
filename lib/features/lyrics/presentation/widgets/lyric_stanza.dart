@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme.dart';
-import '../../domain/lyrics.dart';
+import '../../../bhajans/domain/bhajan.dart';
 
 /// One shloka: marigold "॥ ૩ ॥" marker + its lines. The current line is
 /// white, siblings in the current stanza are soft, everything else faded.
@@ -9,7 +9,7 @@ class LyricStanza extends StatelessWidget {
   const LyricStanza({
     super.key,
     required this.index,
-    required this.stanza,
+    required this.lines,
     required this.firstLineIndex,
     required this.currentLine,
     required this.textScale,
@@ -18,7 +18,7 @@ class LyricStanza extends StatelessWidget {
   });
 
   final int index;
-  final Stanza stanza;
+  final List<String> lines;
   final int firstLineIndex;
   final int currentLine;
   final double textScale;
@@ -33,7 +33,7 @@ class LyricStanza extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lastLine = firstLineIndex + stanza.lines.length - 1;
+    final lastLine = firstLineIndex + lines.length - 1;
     final isCurrentStanza = currentLine >= firstLineIndex && currentLine <= lastLine;
 
     final base = switch (script) {
@@ -51,7 +51,7 @@ class LyricStanza extends StatelessWidget {
           style: AppTypography.overline.copyWith(fontSize: 12, letterSpacing: 2, color: AppPalette.marigold),
         ),
         const SizedBox(height: 8),
-        for (var i = 0; i < stanza.lines.length; i++) ...[
+        for (var i = 0; i < lines.length; i++) ...[
           AnimatedDefaultTextStyle(
             key: lineKeys.putIfAbsent(firstLineIndex + i, GlobalKey.new),
             duration: AppMotion.normal,
@@ -63,9 +63,9 @@ class LyricStanza extends StatelessWidget {
                       ? _soft
                       : _dim,
             ),
-            child: Text(stanza.lines[i]),
+            child: Text(lines[i]),
           ),
-          if (i < stanza.lines.length - 1) const SizedBox(height: 10),
+          if (i < lines.length - 1) const SizedBox(height: 10),
         ],
       ],
     );

@@ -6,7 +6,7 @@ import '../utils/context_extensions.dart';
 import 'app_chip.dart';
 import 'category_tile.dart';
 
-/// One bhajan row — category tile, Gujarati title + transliteration, seva,
+/// One bhajan row — category tile, title, poet · seva,
 /// and a favourite heart.
 /// Shared by Home and Bhajans so both lists look identical.
 class BhajanTile extends StatelessWidget {
@@ -74,7 +74,7 @@ class BhajanTile extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            bhajan.titleGu,
+                            bhajan.title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTypography.gujaratiTitle.copyWith(color: c.ink),
@@ -93,14 +93,12 @@ class BhajanTile extends StatelessWidget {
                         ],
                       ],
                     ),
-                    Text(bhajan.titleEn,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTypography.caption.copyWith(fontSize: 12, color: c.ink3)),
-                    Text(bhajan.primarySeva,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTypography.caption.copyWith(fontSize: 12, color: c.ink2)),
+                    Text(
+                      [if (bhajan.poet.isNotEmpty) bhajan.poet, if (bhajan.seva.isNotEmpty) bhajan.seva].join(' · '),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.caption.copyWith(fontSize: 12, color: c.ink2),
+                    ),
                   ],
                 ),
               ),

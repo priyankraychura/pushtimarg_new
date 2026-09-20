@@ -10,11 +10,11 @@ extension BhajanCategoryIcon on BhajanCategory {
         BhajanCategory.aarti => Icons.local_fire_department_outlined,
         BhajanCategory.kirtan => Icons.music_note_outlined,
         BhajanCategory.pad => Icons.auto_stories_outlined,
-        BhajanCategory.vasta => Icons.spa_outlined,
+        BhajanCategory.varta => Icons.spa_outlined,
       };
 
   IconTileTone get tone => switch (this) {
-        BhajanCategory.aarti || BhajanCategory.vasta => IconTileTone.accent,
+        BhajanCategory.aarti || BhajanCategory.varta => IconTileTone.accent,
         BhajanCategory.kirtan => IconTileTone.brand,
         BhajanCategory.pad => IconTileTone.rose,
       };

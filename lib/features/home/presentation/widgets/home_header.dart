@@ -74,7 +74,7 @@ class HomeHeader extends ConsumerWidget {
           Gap.lg,
           _NowCard(
             sevaName: seva?.name ?? '',
-            kirtan: seva?.kirtan ?? '',
+            kirtan: nowBhajan?.title ?? '',
             onRead: nowBhajan == null ? null : () {},
             bhajanId: nowBhajan?.id,
           ),

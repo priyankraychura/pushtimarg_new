@@ -77,7 +77,8 @@ class _SevaCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final live = status == SevaStatus.live;
-    final bhajan = ref.watch(bhajanForSevaProvider(seva));
+    final bhajans = ref.watch(bhajansForSevaProvider(seva));
+    final bhajan = bhajans.firstOrNull;
     return AnimatedOpacity(
       duration: AppMotion.normal,
       opacity: status == SevaStatus.done ? .6 : 1,
@@ -105,12 +106,12 @@ class _SevaCard extends ConsumerWidget {
               ),
               Text(seva.name, style: AppTypography.titleSmall.copyWith(color: c.ink)),
               Gap.xs,
-              Text(seva.kirtan,
+              Text(bhajan?.title ?? '',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppTypography.caption.copyWith(fontSize: 12, height: 1.3, color: c.ink2)),
               const Spacer(),
-              Text('${seva.kirtanCount} kirtans', style: AppTypography.caption.copyWith(color: c.ink3)),
+              Text('${bhajans.length} kirtans', style: AppTypography.caption.copyWith(color: c.ink3)),
             ],
           ),
         ),

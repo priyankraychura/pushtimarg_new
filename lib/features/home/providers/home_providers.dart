@@ -28,10 +28,13 @@ const ashtachhapPoets = [
   ('च', 'Chaturbhujdas'),
 ];
 
-/// The bhajan a seva card / "Read" button opens: the seva's named kirtan if we
-/// have it, else the first bhajan sung at that seva.
-final bhajanForSevaProvider = Provider.family<Bhajan?, Seva>((ref, seva) {
+/// All bhajans sung at a seva, in list order.
+final bhajansForSevaProvider = Provider.family<List<Bhajan>, Seva>((ref, seva) {
   final bhajans = ref.watch(allBhajansProvider).value ?? const <Bhajan>[];
-  return bhajans.where((b) => b.titleEn == seva.kirtan).firstOrNull ??
-      bhajans.where((b) => b.sevas.contains(seva.name)).firstOrNull;
+  return bhajans.where((b) => b.seva == seva.name).toList();
 });
+
+/// The bhajan a seva card / "Read" button opens: the first one for that seva.
+final bhajanForSevaProvider = Provider.family<Bhajan?, Seva>(
+  (ref, seva) => ref.watch(bhajansForSevaProvider(seva)).firstOrNull,
+);
