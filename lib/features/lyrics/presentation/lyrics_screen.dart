@@ -18,7 +18,7 @@ import 'widgets/reader_top_bar.dart';
 import 'widgets/script_pills.dart';
 
 /// Immersive lyrics view: teal gradient, big lines, current line bright.
-/// Opened via container transform from any bhajan row, or by route.
+/// Pushed from any bhajan row via the lyrics route.
 class LyricsScreen extends ConsumerStatefulWidget {
   const LyricsScreen({super.key, required this.bhajanId});
   final String bhajanId;

@@ -14,6 +14,7 @@ import '../../features/lyrics/presentation/lyrics_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/shell/presentation/app_shell.dart';
 import '../theme/theme.dart';
+import '../widgets/container_transform_page.dart';
 import 'app_routes.dart';
 
 final _rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -72,14 +73,21 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.lyrics,
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, s) => _sharedAxis(s, LyricsScreen(bhajanId: s.pathParameters['id']!)),
+        // Grows out of the tapped card (passed as `extra`) and shrinks back on
+        // close; falls back to a centre zoom when opened by deep link.
+        pageBuilder: (_, s) => ContainerTransformPage(
+          key: s.pageKey,
+          origin: s.extra is ContainerOrigin ? s.extra! as ContainerOrigin : null,
+          color: AppPalette.readerTop,
+          child: LyricsScreen(bhajanId: s.pathParameters['id']!),
+        ),
       ),
     ],
   );
 });
 
 /// Tab switches and auth fade through; pushed screens slide in on the
-/// shared vertical axis. Cards use `OpenContainerCard` instead of routes.
+/// shared vertical axis. The lyrics reader grows out of its card (ContainerTransformPage).
 CustomTransitionPage<void> _fade(GoRouterState state, Widget child) => CustomTransitionPage(
       key: state.pageKey,
       child: child,

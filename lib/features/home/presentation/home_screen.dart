@@ -8,7 +8,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../bhajans/domain/bhajan.dart';
 import '../../bhajans/providers/bhajan_providers.dart';
-import '../../lyrics/presentation/lyrics_screen.dart';
 import '../../user/providers/user_data_providers.dart';
 import 'widgets/category_grid.dart';
 import 'widgets/home_header.dart';
@@ -72,20 +71,14 @@ class HomeScreen extends ConsumerWidget {
               itemBuilder: (context, i) {
                 final b = list[i];
                 final line = userData.progress[b.id];
-                return OpenContainerCard(
-                  radius: AppRadius.lg,
-                  showBorder: false,
-                  closedColor: Colors.transparent,
-                  closedBuilder: (_, open) => BhajanTile(
-                    bhajan: b,
-                    onTap: open,
-                    showDivider: i > 0,
-                    progress: line == null ? null : (line / b.lineCount).clamp(0, 1),
-                    currentLine: line,
-                    favourite: userData.favourites.contains(b.id),
-                    onFavourite: () => ref.read(userDataProvider.notifier).toggleFavourite(b.id),
-                  ),
-                  openBuilder: (_, _) => LyricsScreen(bhajanId: b.id),
+                return BhajanTile(
+                  bhajan: b,
+                  onTap: (tile) => context.push(AppRoutes.lyricsFor(b.id), extra: ContainerOrigin.of(tile)),
+                  showDivider: i > 0,
+                  progress: line == null ? null : (line / b.lineCount).clamp(0, 1),
+                  currentLine: line,
+                  favourite: userData.favourites.contains(b.id),
+                  onFavourite: () => ref.read(userDataProvider.notifier).toggleFavourite(b.id),
                 ).animate().fadeIn(delay: (60 * i).ms, duration: 300.ms);
               },
             ),

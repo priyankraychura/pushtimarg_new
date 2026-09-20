@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../../../lyrics/presentation/lyrics_screen.dart';
 import '../../../user/providers/user_data_providers.dart';
 import '../../domain/bhajan.dart';
 
-/// Sliver list of [BhajanTile]s where every row expands into the reader with
-/// the container transform. Shared by Bhajans and Favourites.
+/// Sliver list of [BhajanTile]s where every row pushes the lyrics reader.
+/// Shared by Bhajans and Favourites.
 class BhajanSliverList extends ConsumerWidget {
   const BhajanSliverList({
     super.key,
@@ -31,20 +32,14 @@ class BhajanSliverList extends ConsumerWidget {
         itemCount: bhajans.length,
         itemBuilder: (context, i) {
           final b = bhajans[i];
-          return OpenContainerCard(
+          return BhajanTile(
             key: ValueKey('$keyPrefix-${b.id}'),
-            radius: AppRadius.lg,
-            showBorder: false,
-            closedColor: Colors.transparent,
-            closedBuilder: (_, open) => BhajanTile(
-              bhajan: b,
-              onTap: open,
-              showDivider: i > 0,
-              showCategoryTag: showCategoryTag,
-              favourite: favourites.contains(b.id),
-              onFavourite: () => ref.read(userDataProvider.notifier).toggleFavourite(b.id),
-            ),
-            openBuilder: (_, _) => LyricsScreen(bhajanId: b.id),
+            bhajan: b,
+            onTap: (tile) => context.push(AppRoutes.lyricsFor(b.id), extra: ContainerOrigin.of(tile)),
+            showDivider: i > 0,
+            showCategoryTag: showCategoryTag,
+            favourite: favourites.contains(b.id),
+            onFavourite: () => ref.read(userDataProvider.notifier).toggleFavourite(b.id),
           ).animate().fadeIn(delay: (30 * i.clamp(0, 12)).ms, duration: 260.ms);
         },
       ),

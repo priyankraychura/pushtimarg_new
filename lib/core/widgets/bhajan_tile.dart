@@ -23,7 +23,9 @@ class BhajanTile extends StatelessWidget {
   });
 
   final Bhajan bhajan;
-  final VoidCallback? onTap;
+  /// Called with the tile's own context so callers can read its on-screen
+  /// rect (`ContainerOrigin.of`) — a sliver builder's context is the sliver, not the row.
+  final void Function(BuildContext tileContext)? onTap;
 
   /// 0–1 reading progress. When set, a progress bar replaces the heart.
   final double? progress;
@@ -88,7 +90,7 @@ class BhajanTile extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap == null ? null : () => onTap!(context),
         borderRadius: AppRadius.r(AppRadius.lg),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 10),

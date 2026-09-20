@@ -10,7 +10,6 @@ import '../../../../core/widgets/widgets.dart';
 import '../../../auth/providers/auth_providers.dart';
 import '../../../bhajans/providers/bhajan_providers.dart';
 import '../../../calendar/providers/calendar_providers.dart';
-import '../../../lyrics/presentation/lyrics_screen.dart';
 import '../../../settings/providers/settings_providers.dart';
 import '../../providers/home_providers.dart';
 
@@ -133,12 +132,14 @@ class _NowCard extends StatelessWidget {
     );
 
     if (bhajanId == null) return card;
-    return OpenContainerCard(
-      radius: AppRadius.xl,
-      showBorder: false,
-      closedColor: Colors.transparent,
-      closedBuilder: (_, _) => card,
-      openBuilder: (_, _) => LyricsScreen(bhajanId: bhajanId!),
+    return Material(
+      color: Colors.transparent,
+      borderRadius: AppRadius.r(AppRadius.xl),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => context.push(AppRoutes.lyricsFor(bhajanId!), extra: ContainerOrigin.of(context, radius: AppRadius.xl)),
+        child: card,
+      ),
     );
   }
 }

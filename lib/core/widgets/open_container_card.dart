@@ -10,7 +10,7 @@ import '../utils/context_extensions.dart';
 ///
 /// ```dart
 /// OpenContainerCard(
-///   closedBuilder: (_, open) => BhajanTile(bhajan, onTap: open),
+///   closedBuilder: (_, open) => BhajanTile(bhajan, onTap: (_) => open()),
 ///   openBuilder: (_, close) => LyricsScreen(bhajanId: bhajan.id),
 /// )
 /// ```
