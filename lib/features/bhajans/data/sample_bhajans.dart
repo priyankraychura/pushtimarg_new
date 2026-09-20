@@ -58,6 +58,7 @@ const List<Bhajan> sampleBhajans = [
     poet: 'Shri Vallabhacharya',
     seva: 'Rajbhog',
     video: 'nL6guAGD-Mk',
+    tags: ['yamunashtak', 'yamunastak', 'yamunashtakam'],
   ),
   ...yamunaji41PadBhajans,
 ];

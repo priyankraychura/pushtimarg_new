@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../lyrics/data/sample_lyrics.dart';
 import '../../varta/data/sample_vartas.dart';
 import 'sample_bhajans.dart';
+import 'search_index.dart';
 
 /// Syncs Firestore (`bhajans/`, `lyrics/`, `vartas/`) to the bundled sample
 /// content: upserts every sample doc by id and deletes docs that are no
@@ -17,7 +18,7 @@ Future<int> seedFirestore([FirebaseFirestore? db]) async {
 
   final batch = fs.batch();
   for (final b in sampleBhajans) {
-    batch.set(bhajans.doc(b.id), b.toMap());
+    batch.set(bhajans.doc(b.id), b.withSearch(buildSearchText(b, sampleLyrics[b.id])).toMap());
   }
   for (final l in sampleLyrics.values) {
     batch.set(lyrics.doc(l.bhajanId), l.toMap());

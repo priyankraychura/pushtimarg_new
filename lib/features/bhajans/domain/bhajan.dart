@@ -21,7 +21,7 @@ enum BhajanCategory {
 ///
 /// Firestore doc `bhajans/{id}`:
 /// ```
-/// title, category (pad|aarti|kirtan|varta), poet, seva, video?, tags[]
+/// title, category (pad|aarti|kirtan|varta), poet, seva, video?, tags[], search?
 /// ```
 @immutable
 class Bhajan {
@@ -33,6 +33,7 @@ class Bhajan {
     required this.seva,
     this.video,
     this.tags = const [],
+    this.search = '',
   });
 
   final String id;
@@ -49,6 +50,24 @@ class Bhajan {
   /// Free-form labels ("janmashtami", "holi") for linking to calendar days.
   final List<String> tags;
 
+  /// Precomputed, lowercased haystack for search: title, poet, tags and the
+  /// opening line of each script, collapsed into one string. Built once by
+  /// [buildSearchText] (at seed time / sample load) so a keystroke costs one
+  /// `contains` per bhajan instead of touching the lyrics docs. Empty means
+  /// "not indexed" and [matches] falls back to title/poet/tags.
+  final String search;
+
+  Bhajan withSearch(String s) => Bhajan(
+        id: id,
+        title: title,
+        category: category,
+        poet: poet,
+        seva: seva,
+        video: video,
+        tags: tags,
+        search: s,
+      );
+
   factory Bhajan.fromMap(String id, Map<String, dynamic> m) => Bhajan(
         id: id,
         title: m['title'] as String? ?? '',
@@ -57,6 +76,7 @@ class Bhajan {
         seva: m['seva'] as String? ?? '',
         video: m['video'] as String?,
         tags: List<String>.from(m['tags'] as List? ?? const []),
+        search: m['search'] as String? ?? '',
       );
 
   Map<String, dynamic> toMap() => {
@@ -66,11 +86,13 @@ class Bhajan {
         'seva': seva,
         if (video != null) 'video': video,
         'tags': tags,
+        if (search.isNotEmpty) 'search': search,
       };
 
   bool matches(String query) {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) return true;
+    if (search.isNotEmpty) return search.contains(q);
     return title.toLowerCase().contains(q) ||
         poet.toLowerCase().contains(q) ||
         tags.any((t) => t.toLowerCase().contains(q));
