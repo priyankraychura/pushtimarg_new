@@ -1,8 +1,10 @@
 import '../domain/bhajan.dart';
+import 'yamunaji_41_pad_bhajans.dart';
 
 /// Bundled sample content so the app runs before Firestore has data.
 /// Also the seed: Settings > "Seed sample data" pushes this to Firestore.
 /// Lyrics for these live in `sample_lyrics.dart`.
+/// Also includes `yamunaji41PadBhajans`.
 const List<Bhajan> sampleBhajans = [
   Bhajan(
     id: 'aarti-shrinathji-mangala',
@@ -57,4 +59,5 @@ const List<Bhajan> sampleBhajans = [
     seva: 'Rajbhog',
     video: 'nL6guAGD-Mk',
   ),
+  ...yamunaji41PadBhajans,
 ];

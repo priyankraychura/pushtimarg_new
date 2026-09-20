@@ -1,4 +1,5 @@
 import '../domain/lyrics.dart';
+import 'yamunaji_41_pad_lyrics.dart';
 
 /// Lyrics for every bhajan in `sampleBhajans`, keyed by id.
 /// One string per line; '' separates stanzas.
@@ -276,4 +277,5 @@ const Map<String, Lyrics> sampleLyrics = {
       ],
     },
   ),
+  ...yamunaji41PadLyrics,
 };
