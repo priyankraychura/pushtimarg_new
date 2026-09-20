@@ -1,7 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/app_config.dart';
+import '../data/lyrics_repository.dart';
+import '../domain/lyrics.dart';
+
+final lyricsRepositoryProvider = Provider<LyricsRepository>((ref) {
+  if (AppConfig.demoMode) return SampleLyricsRepository();
+  return FirestoreLyricsRepository(FirebaseFirestore.instance);
+});
+
+/// Fetched once per bhajan when its reader opens.
+final lyricsProvider = FutureProvider.family<Lyrics?, String>(
+  (ref, id) => ref.watch(lyricsRepositoryProvider).get(id),
+);
+
 /// Transient reader state (not persisted): which line is current, whether
-/// auto-scroll is running. Lyrics themselves live on `Bhajan`.
+/// auto-scroll is running.
 class ReaderState {
   const ReaderState({this.currentLine = 0, this.autoScrolling = false});
   final int currentLine;

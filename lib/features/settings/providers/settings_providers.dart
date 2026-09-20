@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/config/app_config.dart';
-import '../../bhajans/domain/bhajan.dart';
+import '../../lyrics/domain/lyrics.dart';
 import '../data/settings_repository.dart';
 import '../domain/app_settings.dart';
 

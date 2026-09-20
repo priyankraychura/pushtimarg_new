@@ -3,7 +3,7 @@ import '../domain/bhajan.dart';
 /// Bundled sample content so the app runs before Firestore has data.
 /// Also handy as a seed: `for (final b in sampleBhajans) col.doc(b.id).set(b.toMap())`.
 ///
-/// Only Yamunashtak has real lyrics; the others reuse them so every row opens something.
+/// Lyrics for these live in `sample_lyrics.dart`.
 const List<Bhajan> sampleBhajans = [
   Bhajan(
     id: 'yamunashtak',
@@ -11,7 +11,6 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.kirtan,
     poet: 'Shri Vallabhacharya',
     seva: 'Rajbhog',
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'madhurashtakam',
@@ -19,7 +18,6 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.kirtan,
     poet: 'Shri Vallabhacharya',
     seva: 'Rajbhog',
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'chalo-sakhi-yamuna-tat',
@@ -27,7 +25,6 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.kirtan,
     poet: 'Surdas',
     seva: 'Gwal',
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'aarti-yamunaji',
@@ -35,7 +32,6 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.aarti,
     poet: 'Paramananddas',
     seva: 'Sandhya Aarti',
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'aarti-shrinathji',
@@ -43,7 +39,6 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.aarti,
     poet: 'Paramananddas',
     seva: 'Sandhya Aarti',
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'jago-mohan-pyare',
@@ -51,7 +46,6 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.kirtan,
     poet: 'Surdas',
     seva: 'Mangala',
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'jai-jai-shri-vallabh',
@@ -60,7 +54,6 @@ const List<Bhajan> sampleBhajans = [
     poet: 'Traditional',
     seva: 'Shayan',
     tags: ['vadhai'],
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'maiya-mori',
@@ -68,7 +61,6 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.pad,
     poet: 'Surdas',
     seva: 'Gwal',
-    lyrics: _yamunashtak,
   ),
   Bhajan(
     id: 'sarvottam-stotra',
@@ -76,58 +68,5 @@ const List<Bhajan> sampleBhajans = [
     category: BhajanCategory.kirtan,
     poet: 'Shri Gusainji',
     seva: 'Rajbhog',
-    lyrics: _yamunashtak,
   ),
 ];
-
-// One string per line; '' separates stanzas.
-const Map<Script, List<String>> _yamunashtak = {
-  Script.gujarati: [
-    'નમામિ યમુનામહં સકલ સિદ્ધિ હેતું મુદા,',
-    'મુરારિ પદ પંકજ સ્ફુરદમંદ રેણૂત્કટામ્ ।',
-    'તટસ્થ નવ કાનન પ્રકટ મોદ પુષ્પામ્બુના,',
-    'સુરાસુર સુપૂજિત સ્મર પિતુઃ શ્રિયં બિભ્રતીમ્ ॥',
-    '',
-    'કલિંદ ગિરિ મસ્તકે પતદમંદ પૂરોજ્જ્વલા,',
-    'વિલાસ ગમનોલ્લસત્ પ્રકટ ગંડ શૈલોન્નતા ।',
-    'સઘોષ ગતિ દંતુરા સમધિરૂઢ દોલોત્તમા,',
-    'મુકુંદ રતિ વર્ધિની જયતિ પદ્મ બંધોઃ સુતા ॥',
-    '',
-    'ભુવં ભુવન પાવનીમધિગતામનેકસ્વનૈઃ,',
-    'પ્રિયાભિરિવ સેવિતાં શુક મયૂર હંસાદિભિઃ ।',
-    'તરંગ ભુજ કંકણ પ્રકટ મુક્તિકા વાલુકા,',
-    'નિતંબ તટ સુંદરીં નમત કૃષ્ણ તુર્ય પ્રિયામ્ ॥',
-    '',
-    'અનંત ગુણ ભૂષિતે શિવ વિરંચિ દેવ સ્તુતે,',
-    'ઘનાઘન નિભે સદા ધ્રુવ પરાશરાભીષ્ટદે ।',
-    'વિશુદ્ધ મથુરા તટે સકલ ગોપ ગોપી વૃતે,',
-    'કૃપા જલધિ સંશ્રિતે મમ મનઃ સુખં ભાવય ॥',
-    '',
-    'યયા ચરણ પદ્મજા મુરરિપોઃ પ્રિયં ભાવુકા,',
-    'સમાગમનતો ભવત્ સકલ સિદ્ધિદા સેવતામ્ ।',
-    'તયા સદૃશતામિયાત્ કમલજા સપત્નીવ યત્,',
-    'હરિપ્રિય કલિંદયા મનસિ મે સદા સ્થીયતામ્ ॥',
-  ],
-  Script.hindi: [
-    'नमामि यमुनामहं सकल सिद्धि हेतुं मुदा,',
-    'मुरारि पद पंकज स्फुरदमंद रेणूत्कटाम् ।',
-    'तटस्थ नव कानन प्रकट मोद पुष्पाम्बुना,',
-    'सुरासुर सुपूजित स्मर पितुः श्रियं बिभ्रतीम् ॥',
-    '',
-    'कलिंद गिरि मस्तके पतदमंद पूरोज्ज्वला,',
-    'विलास गमनोल्लसत् प्रकट गंड शैलोन्नता ।',
-    'सघोष गति दंतुरा समधिरूढ दोलोत्तमा,',
-    'मुकुंद रति वर्धिनी जयति पद्म बंधोः सुता ॥',
-  ],
-  Script.english: [
-    'Namami Yamunam aham sakala siddhi hetum muda,',
-    'Murari pada pankaja sphurad amanda renutkatam.',
-    'Tatastha nava kanana prakata moda pushpambuna,',
-    'Surasura supujita smara pituh shriyam bibhratim.',
-    '',
-    'Kalinda giri mastake patad amanda purojjvala,',
-    'Vilasa gamanollasat prakata ganda shailonnata.',
-    'Saghosha gati dantura samadhirudha dolottama,',
-    'Mukunda rati vardhini jayati padma bandhoh suta.',
-  ],
-};

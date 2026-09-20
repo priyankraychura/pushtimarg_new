@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../bhajans/domain/bhajan.dart';
+import '../../lyrics/domain/lyrics.dart';
 
 enum AutoScrollSpeed {
   slow('Slow', 28),

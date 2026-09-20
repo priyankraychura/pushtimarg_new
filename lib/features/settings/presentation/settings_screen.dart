@@ -7,7 +7,7 @@ import '../../../core/utils/context_extensions.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../auth/providers/auth_providers.dart';
 import '../../bhajans/providers/bhajan_providers.dart';
-import '../../bhajans/domain/bhajan.dart';
+import '../../lyrics/domain/lyrics.dart';
 import '../domain/app_settings.dart';
 import '../providers/settings_providers.dart';
 import 'widgets/settings_row.dart';

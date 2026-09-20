@@ -33,11 +33,12 @@ to the cloud.
 
 | Collection        | Doc id       | Fields |
 |-------------------|--------------|--------|
-| `bhajans`         | slug         | `title`, `category` (`pad|aarti|kirtan|varta`), `poet`, `seva`, `video` (YouTube id, optional), `tags[]`, `lyrics` — `{gu: [...], hi: [...], en: [...]}`, one string per line, `""` = stanza break |
+| `bhajans`         | slug         | `title`, `category` (`pad|aarti|kirtan|varta`), `poet`, `seva`, `video` (YouTube id, optional), `tags[]` |
+| `lyrics`          | same slug    | `gu`, `hi`, `en` — each a list of lines; `""` = stanza break. Read only when a bhajan is opened |
 | `tithi`           | `yyyy-MM-dd` | `date`, `month_gu`, `paksha` (`sud\|vad`), `tithi` (1–15), `utsav[]`, `ekadashi_name` |
 | `users/{uid}`     | auth uid     | `favourites[]`, `progress{bhajanId: line}` |
 
-Seed helpers: `sampleBhajans`, `sampleTithi` have `toMap()` on every model.
+Seed helpers: `sampleBhajans`, `sampleLyrics`, `sampleTithi` have `toMap()` on every model.
 
 ## Project structure
 

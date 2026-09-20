@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pushti_kirtan/features/bhajans/domain/bhajan.dart';
 import 'package:pushti_kirtan/features/home/domain/seva.dart';
+import 'package:pushti_kirtan/features/lyrics/domain/lyrics.dart';
 
 void main() {
   group('Bhajan.matches', () {
@@ -10,26 +11,26 @@ void main() {
       category: BhajanCategory.kirtan,
       poet: 'Shri Vallabhacharya',
       seva: 'Rajbhog',
-      lyrics: {Script.english: ['Namami Yamunam aham']},
+      tags: ['janmashtami'],
     );
 
-    test('matches title, poet, lyrics and Gujarati', () {
-      expect(b.matches('yamuna'), isTrue);
+    test('matches title, poet, tags and Gujarati', () {
       expect(b.matches('vallabh'), isTrue);
       expect(b.matches('યમુના'), isTrue);
+      expect(b.matches('janma'), isTrue);
       expect(b.matches('surdas'), isFalse);
     });
   });
 
-  group('Bhajan.stanzasFor', () {
+  group('Lyrics.stanzasFor', () {
     test('splits on empty lines', () {
-      const b = Bhajan(
-        id: 'x', title: '', category: BhajanCategory.pad, poet: '', seva: '',
-        lyrics: {Script.gujarati: ['a', 'b', '', 'c', '', '']},
+      const l = Lyrics(
+        bhajanId: 'x',
+        byScript: {Script.gujarati: ['a', 'b', '', 'c', '', '']},
       );
-      expect(b.stanzasFor(Script.gujarati), [['a', 'b'], ['c']]);
-      expect(b.lineCount, 3);
-      expect(b.firstLine, 'a');
+      expect(l.stanzasFor(Script.gujarati), [['a', 'b'], ['c']]);
+      expect(l.has(Script.hindi), isFalse);
+      expect(l.linesFor(Script.hindi), ['a', 'b', '', 'c', '', '']); // falls back to Gujarati
     });
   });
 

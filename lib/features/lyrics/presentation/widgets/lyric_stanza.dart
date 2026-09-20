@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme.dart';
-import '../../../bhajans/domain/bhajan.dart';
+import '../../domain/lyrics.dart';
 
 /// One shloka: marigold "॥ ૩ ॥" marker + its lines. The current line is
 /// white, siblings in the current stanza are soft, everything else faded.
