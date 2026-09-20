@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/utils/context_extensions.dart';
+import '../../../core/utils/snap_header_physics.dart';
 import '../../../core/widgets/widgets.dart';
 import '../domain/bhajan.dart';
 import '../providers/bhajan_providers.dart';
 import 'widgets/bhajan_list.dart';
+import 'widgets/bhajans_header.dart';
 
 class BhajansScreen extends ConsumerStatefulWidget {
   const BhajansScreen({super.key});
@@ -17,9 +19,30 @@ class BhajansScreen extends ConsumerStatefulWidget {
 
 class _BhajansScreenState extends ConsumerState<BhajansScreen> {
   late final _search = TextEditingController(text: ref.read(bhajanFilterProvider).query);
+  final _scroll = ScrollController();
+  final _searchFocus = FocusNode();
+  double _snapOffset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchFocus.addListener(_onSearchFocus);
+  }
+
+  /// Tapping the centred search bar plays the same snap as a flick up, so the
+  /// keyboard rises to a compact header instead of covering the landing.
+  void _onSearchFocus() {
+    if (!_searchFocus.hasFocus || !_scroll.hasClients) return;
+    if (_scroll.offset < _snapOffset) {
+      _scroll.animateTo(_snapOffset, duration: AppMotion.slow, curve: AppMotion.standard);
+    }
+  }
 
   @override
   void dispose() {
+    _searchFocus.removeListener(_onSearchFocus);
+    _searchFocus.dispose();
+    _scroll.dispose();
     _search.dispose();
     super.dispose();
   }
@@ -31,40 +54,30 @@ class _BhajansScreenState extends ConsumerState<BhajansScreen> {
     final all = ref.watch(allBhajansProvider);
     final list = ref.watch(filteredBhajansProvider);
 
+    final header = BhajansHeader(
+      screenHeight: context.screen.height,
+      topPadding: context.safe.top,
+      controller: _search,
+      focusNode: _searchFocus,
+      onChanged: ref.read(bhajanFilterProvider.notifier).setQuery,
+    );
+    _snapOffset = header.snapOffset;
+
     return Scaffold(
       body: CustomScrollView(
+        controller: _scroll,
+        // Flicks snap to the compact state (title top-left, bar beneath).
+        physics: SnapHeaderScrollPhysics.of(context, snapOffset: header.snapOffset),
         slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(AppSpacing.xl, context.safe.top + 14, AppSpacing.xl, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text('Bhajans', style: AppTypography.displayMedium.copyWith(fontSize: 30, color: c.ink)),
-                      const Spacer(),
-                      Text('${all.value?.length ?? 0} bhajans',
-                          style: AppTypography.bodySmall.copyWith(color: c.ink3)),
-                    ],
-                  ),
-                  Gap.lg,
-                  AppSearchBar(
-                    controller: _search,
-                    onChanged: ref.read(bhajanFilterProvider.notifier).setQuery,
-                  ),
-                ],
-              ),
-            ),
-          ),
+          SliverPersistentHeader(pinned: true, delegate: header),
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 52,
+              // Horizontal ListView children stretch to its height — keep it
+              // exactly one chip tall so the pills don't balloon.
+              height: 36,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.md, AppSpacing.xl, 0),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                 children: [
                   AppChip(
                     label: 'All',
@@ -85,6 +98,7 @@ class _BhajansScreenState extends ConsumerState<BhajansScreen> {
               ),
             ),
           ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xs)),
           if (all.isLoading)
             const SliverFillRemaining(child: Center(child: CircularProgressIndicator()))
           else if (list.isEmpty)
