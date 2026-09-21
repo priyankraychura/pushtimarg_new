@@ -334,3 +334,11 @@ const List<Bhajan> yamunaji41PadBhajans = [
     tags: ['yamunaji', '41 pad'],
   ),
 ];
+
+/// Tag every pad of this set carries. The Pad screen selects on it, so the
+/// set stays identifiable once the bhajans come from Firestore.
+const String yamunajiPadTag = '41 pad';
+
+/// Pad number from an id like `yamunaji-41-pad-07` (→ 7); 0 if it has none.
+/// Ids sort 01…41, which is also the order the granth is sung in.
+int yamunajiPadNumber(String id) => int.tryParse(id.split('-').last) ?? 0;

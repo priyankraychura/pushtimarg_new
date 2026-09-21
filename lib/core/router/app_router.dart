@@ -7,6 +7,7 @@ import '../../features/auth/presentation/sign_in_screen.dart';
 import '../../features/auth/providers/auth_providers.dart';
 import '../../features/bhajans/presentation/bhajans_screen.dart';
 import '../../features/bhajans/presentation/favourites_screen.dart';
+import '../../features/bhajans/presentation/pad_screen.dart';
 import '../../features/bhajans/presentation/search_screen.dart';
 import '../../features/calendar/presentation/calendar_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
@@ -73,6 +74,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.calendar,
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, s) => _sharedAxis(s, const CalendarScreen()),
+      ),
+      GoRoute(
+        path: AppRoutes.pad,
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => _sharedAxis(s, const PadScreen()),
       ),
       GoRoute(
         path: AppRoutes.varta,

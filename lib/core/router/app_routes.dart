@@ -11,6 +11,7 @@ abstract final class AppRoutes {
   // Pushed screens
   static const calendar = '/calendar';
   static const search = '/search';
+  static const pad = '/pad';
   static const varta = '/varta';
   static const vartaList = '/varta/:collection';
   static String vartaListFor(String collection) => '/varta/$collection';

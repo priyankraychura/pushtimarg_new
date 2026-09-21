@@ -11,8 +11,9 @@ import '../../../bhajans/providers/bhajan_providers.dart';
 import '../../../varta/domain/varta_collection.dart';
 
 /// Four browse tiles — Aarti, Kirtan, Pad, Varta — with live counts.
-/// Tapping sets the filter and switches to the Bhajans tab; Varta instead
-/// opens its own screen (84 / 252 Vaishnav ni Varta).
+/// Tapping sets the filter and switches to the Bhajans tab; Pad and Varta
+/// instead open their own screens (the 41 pads of Shri Yamunaji, and the
+/// 84 / 252 Vaishnav ni Varta).
 class CategoryGrid extends ConsumerWidget {
   const CategoryGrid({super.key});
 
@@ -31,6 +32,10 @@ class CategoryGrid extends ConsumerWidget {
                 radius: AppRadius.xl,
                 padding: const EdgeInsets.fromLTRB(6, 14, 6, 10),
                 onTap: () {
+                  if (cat == BhajanCategory.pad) {
+                    context.push(AppRoutes.pad);
+                    return;
+                  }
                   if (cat == BhajanCategory.varta) {
                     context.push(AppRoutes.varta);
                     return;

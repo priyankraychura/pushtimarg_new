@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_config.dart';
 import '../data/bhajan_repository.dart';
+import '../data/yamunaji_41_pad_bhajans.dart';
 import '../domain/bhajan.dart';
 
 final bhajanRepositoryProvider = Provider<BhajanRepository>((ref) {
@@ -21,6 +22,14 @@ final bhajanByIdProvider = Provider.family<Bhajan?, String>((ref, id) {
     if (b.id == id) return b;
   }
   return null;
+});
+
+/// શ્રી યમુનાજીનાં ૪૧ પદ, in granth order (pad 1 → 41) — what the Pad screen
+/// shows. Empty until [allBhajansProvider] has loaded.
+final yamunaji41PadsProvider = Provider<List<Bhajan>>((ref) {
+  final all = ref.watch(allBhajansProvider).value ?? const <Bhajan>[];
+  return all.where((b) => b.category == BhajanCategory.pad && b.tags.contains(yamunajiPadTag)).toList()
+    ..sort((a, b) => yamunajiPadNumber(a.id).compareTo(yamunajiPadNumber(b.id)));
 });
 
 enum BhajanSort { az, seva, poet }
