@@ -29,8 +29,10 @@ class FirestoreTithiRepository implements TithiRepository {
 
   @override
   Future<List<TithiDay>> upcomingEkadashi(DateTime from, {int count = 4}) async {
+    // Queries the stored observance flag, not `tithi == 11`: a kshaya Ekadashi
+    // is observed on the Dwadashi day, so filtering on the tithi drops a fast.
     final q = await _col
-        .where('tithi', isEqualTo: 11)
+        .where('ekadashi_vrat', isEqualTo: true)
         .where('date', isGreaterThanOrEqualTo: _k(from))
         .orderBy('date')
         .limit(count)
