@@ -13,6 +13,7 @@ class TithiDay {
     required this.tithi,
     this.utsav = const [],
     this.ekadashiName,
+    this.ekadashiVrat,
   });
 
   final DateTime date;
@@ -25,10 +26,26 @@ class TithiDay {
   final int tithi;
   final List<String> utsav;
 
-  /// Name of the Ekadashi when [tithi] == 11 ("Jal Jhilani").
+  /// Name of the Ekadashi on the vrat day ("Jal Jhilani").
   final String? ekadashiName;
 
-  bool get isEkadashi => tithi == 11;
+  /// Whether the Ekadashi vrat is observed on this date, as shipped in the
+  /// table. Null in docs written before the field existed — read [isEkadashi]
+  /// rather than this.
+  final bool? ekadashiVrat;
+
+  /// The Ekadashi *tithi* runs at sunrise on this date — an astronomical fact.
+  bool get isEkadashiTithi => tithi == 11;
+
+  /// The day the Ekadashi vrat is observed.
+  ///
+  /// Usually the same day as [isEkadashiTithi], but the tithi does not map
+  /// one-to-one onto civil days: it can span two sunrises (vriddhi) or none at
+  /// all (kshaya). The Vaishnav convention defers the fast in both cases — to
+  /// the second day, and to the following Dwadashi — so a fortnight can have an
+  /// Ekadashi vrat with no Ekadashi tithi at sunrise. The flag is therefore part
+  /// of the shipped table; the fallback keeps pre-existing docs working.
+  bool get isEkadashi => ekadashiVrat ?? isEkadashiTithi;
   bool get isPunam => paksha == Paksha.sud && tithi == 15;
   bool get isAmas => paksha == Paksha.vad && tithi == 15;
   bool get hasUtsav => utsav.isNotEmpty;
@@ -54,6 +71,7 @@ class TithiDay {
         tithi: (m['tithi'] as num).toInt(),
         utsav: List<String>.from(m['utsav'] as List? ?? const []),
         ekadashiName: m['ekadashi_name'] as String?,
+        ekadashiVrat: m['ekadashi_vrat'] as bool?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -62,6 +80,7 @@ class TithiDay {
         'paksha': paksha.name,
         'tithi': tithi,
         'utsav': utsav,
+        'ekadashi_vrat': isEkadashi,
         if (ekadashiName != null) 'ekadashi_name': ekadashiName,
       };
 }
