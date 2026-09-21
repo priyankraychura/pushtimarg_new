@@ -12,7 +12,14 @@ npm install
 npm run generate                  # 2026–2027 by default
 npm run generate -- --from 2026 --to 2030
 npm run check                     # verify only, write nothing
+npm run validate                  # check against the 2023 golden year
 ```
+
+`npm run validate` recomputes 2023 — which contained Adhik Shravan (18 Jul –
+16 Aug) — and asserts nine published Ekadashi dates plus the adhik month's
+range. It exercises month naming, adhik detection and the vrat deferral rule
+against an independent record, so run it after touching any of them. **Do not
+edit those expectations to make a change pass.**
 
 The generator refuses to write if any anchor or invariant fails, so a bad
 regeneration can't silently reach the app.
@@ -36,11 +43,17 @@ All four were verified against the library, not read from its docs:
 3. `Tithi.name_en_IN` uses Telugu-flavoured spellings — "Ekadasi", "Punnami",
    "Dasami", "Vidhiya" — so any lookup table keyed on Sanskrit names misses
    silently. We key on `Tithi.ino` (0–29) instead.
-4. `MoonMasa.isLeapMonth` is unreliable (in 2029 it flags contradictory months).
-   Adhik maas is derived instead: lunar months are split at the paksha cycle
-   (Vad → Sud), and when two consecutive months share an ino the first is Adhik.
-   Splitting on ino changes alone merges the two months of an adhik maas and
-   loses an Ekadashi.
+4. **`MoonMasa.ino` lags by a month around an adhik maas**, and
+   `MoonMasa.isLeapMonth` is wrong outright (in 2029 it flags contradictory
+   months). Naming months from the ino put Mohini Ekadashi 2026 a month late and
+   placed the adhik maas in Vaishakh instead of Ashadh.
+
+   So the month name comes from the **solar sankranti** instead, which is what
+   actually defines an amanta month: lunar months are split at the paksha cycle
+   (Vad → Sud), the sun's sidereal sign is read at each month's first sunrise,
+   and the rasi entered during a month names it (Mesha → Chaitra, Vrishabha →
+   Vaishakh, …). A month containing no sankranti is adhik and takes the
+   following nij month's name. Nothing reads the library's month fields now.
 
 ## Ekadashi vrat days
 

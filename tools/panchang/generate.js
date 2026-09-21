@@ -98,6 +98,25 @@ const UTSAV = {
 };
 
 /**
+ * 2023 is a golden year: it contained Adhik Shravan (18 Jul - 16 Aug 2023) and
+ * its Ekadashi dates are widely published, so it exercises month naming, adhik
+ * detection and the vrat deferral rule against an independent record. Run with
+ * `--validate`. Do not edit these to make a change pass.
+ */
+const GOLDEN_2023 = [
+  ['2023-05-01', 'Vaishakh Sud 11', 'Mohini'],
+  ['2023-05-31', 'Jeth Sud 11', 'Nirjala'],
+  ['2023-06-14', 'Jeth Vad 11', 'Yogini'],
+  ['2023-06-29', 'Ashadh Sud 11', 'Devshayani'],
+  ['2023-07-13', 'Ashadh Vad 11', 'Kamika'],
+  ['2023-07-29', 'Adhik Shravan Sud 11', 'Padmini'],
+  ['2023-08-12', 'Adhik Shravan Vad 11', 'Parama'],   // vriddhi: Vad 11 at two
+                                                      // sunrises, fast on the 2nd
+  ['2023-08-27', 'Shravan Sud 11', 'Pavitra'],
+  ['2023-09-10', 'Shravan Vad 11', 'Aja'],
+];
+
+/**
  * Anchors the generator asserts before writing anything. These are the dates the
  * hand-written demo table already got right, so a regression here means the
  * astronomy or the ino mapping drifted.
@@ -479,6 +498,31 @@ function main() {
     return i >= 0 && argv[i + 1] ? Number(argv[i + 1]) : fallback;
   };
   const checkOnly = argv.includes('--check');
+  const validate = argv.includes('--validate');
+
+  if (validate) {
+    process.stdout.write('Validating against the 2023 golden year (Adhik Shravan)...\n');
+    const { days } = build(2023, 2023);
+    const byKey = new Map(days.map((d) => [key(d.date), d]));
+    const bad = [];
+    for (const [date, expectLabel, expectName] of GOLDEN_2023) {
+      const d = byKey.get(date);
+      if (!d) { bad.push(`${date}: missing`); continue; }
+      if (label(d) !== expectLabel) bad.push(`${date}: expected "${expectLabel}", got "${label(d)}"`);
+      if (d.ekadashiName !== expectName) {
+        bad.push(`${date}: expected "${expectName}", got "${d.ekadashiName ?? 'nothing'}"`);
+      }
+    }
+    const adhik = [...new Set(days.filter((x) => x.isAdhik).map((x) => x.monthGu))];
+    if (adhik.join() !== 'Adhik Shravan') bad.push(`adhik maas: expected Adhik Shravan, got ${adhik.join() || 'none'}`);
+    if (bad.length) {
+      process.stderr.write(`FAILED ${bad.length} check(s):\n`);
+      for (const b of bad) process.stderr.write(`  - ${b}\n`);
+      process.exit(1);
+    }
+    process.stdout.write(`  ${GOLDEN_2023.length} published dates + Adhik Shravan all match\n`);
+    return;
+  }
   const fromYear = arg('from', 2026);
   const toYear = arg('to', 2027);
 

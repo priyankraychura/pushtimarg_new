@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "generate": "node generate.js",
-    "check": "node generate.js --check"
+    "check": "node generate.js --check",
+    "validate": "node generate.js --validate"
   },
   "dependencies": {
     "mhah-panchang": "^1.0.7",
