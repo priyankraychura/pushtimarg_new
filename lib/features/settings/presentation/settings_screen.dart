@@ -8,6 +8,7 @@ import '../../../core/utils/context_extensions.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../auth/providers/auth_providers.dart';
 import '../../bhajans/data/seed.dart';
+import '../../calendar/data/seed_tithi.dart';
 import '../../bhajans/providers/bhajan_providers.dart';
 import '../../lyrics/domain/lyrics.dart';
 import '../domain/app_settings.dart';
@@ -165,7 +166,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             const SettingsRow(icon: Icons.edit_outlined, tone: IconTileTone.accent, label: 'Suggest a bhajan or report a mistake'),
             const SettingsRow(icon: Icons.star_outline_rounded, tone: IconTileTone.accent, label: 'Rate the app'),
-            if (kDebugMode && !AppConfig.demoMode)
+            if (kDebugMode && !AppConfig.demoMode) ...[
               SettingsRow(
                 icon: Icons.cloud_upload_outlined,
                 tone: IconTileTone.accent,
@@ -173,6 +174,14 @@ class SettingsScreen extends ConsumerWidget {
                 description: 'Debug · writes sample bhajans to Firestore',
                 onTap: () => _seed(context),
               ),
+              SettingsRow(
+                icon: Icons.calendar_month_outlined,
+                tone: IconTileTone.accent,
+                label: 'Seed tithi calendar',
+                description: 'Debug · writes the generated tithi table to Firestore',
+                onTap: () => _seedTithi(context),
+              ),
+            ],
           ]),
 
           Gap.xxl,
@@ -203,6 +212,16 @@ class SettingsScreen extends ConsumerWidget {
       messenger.showSnackBar(SnackBar(content: Text('Seeded $n bhajans')));
     } catch (e) {
       messenger.showSnackBar(SnackBar(content: Text('Seed failed: $e')));
+    }
+  }
+
+  Future<void> _seedTithi(BuildContext context) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final n = await seedTithi();
+      messenger.showSnackBar(SnackBar(content: Text('Seeded $n tithi days')));
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('Tithi seed failed: $e')));
     }
   }
 
