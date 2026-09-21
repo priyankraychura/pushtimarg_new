@@ -143,94 +143,94 @@ const String _table = '''
   2026-04-15|Chaitra|vad|13|||
   2026-04-16|Chaitra|vad|14|||
   2026-04-17|Chaitra|vad|15|||
-  2026-04-18|Adhik Vaishakh|sud|1|||
-  2026-04-19|Adhik Vaishakh|sud|2|||
-  2026-04-20|Adhik Vaishakh|sud|3|||
-  2026-04-21|Adhik Vaishakh|sud|5|||
-  2026-04-22|Adhik Vaishakh|sud|6|||
-  2026-04-23|Adhik Vaishakh|sud|7|||
-  2026-04-24|Adhik Vaishakh|sud|8|||
-  2026-04-25|Adhik Vaishakh|sud|9|||
-  2026-04-26|Adhik Vaishakh|sud|10|||
-  2026-04-27|Adhik Vaishakh|sud|11|Padmini||E
-  2026-04-28|Adhik Vaishakh|sud|12|||
-  2026-04-29|Adhik Vaishakh|sud|13|||
-  2026-04-30|Adhik Vaishakh|sud|14|||
-  2026-05-01|Adhik Vaishakh|sud|15|||
-  2026-05-02|Adhik Vaishakh|vad|1|||
-  2026-05-03|Adhik Vaishakh|vad|2|||
-  2026-05-04|Adhik Vaishakh|vad|3|||
-  2026-05-05|Adhik Vaishakh|vad|4|||
-  2026-05-06|Adhik Vaishakh|vad|4|||
-  2026-05-07|Adhik Vaishakh|vad|5|||
-  2026-05-08|Adhik Vaishakh|vad|6|||
-  2026-05-09|Adhik Vaishakh|vad|7|||
-  2026-05-10|Adhik Vaishakh|vad|8|||
-  2026-05-11|Adhik Vaishakh|vad|9|||
-  2026-05-12|Adhik Vaishakh|vad|10|||
-  2026-05-13|Adhik Vaishakh|vad|11|Parama||E
-  2026-05-14|Adhik Vaishakh|vad|12|||
-  2026-05-15|Adhik Vaishakh|vad|13|||
-  2026-05-16|Adhik Vaishakh|vad|15|||
-  2026-05-17|Vaishakh|sud|1|||
-  2026-05-18|Vaishakh|sud|2|||
-  2026-05-19|Vaishakh|sud|3||Akha Trij|
-  2026-05-20|Vaishakh|sud|4|||
-  2026-05-21|Vaishakh|sud|5|||
-  2026-05-22|Vaishakh|sud|6|||
-  2026-05-23|Vaishakh|sud|8|||
-  2026-05-24|Vaishakh|sud|9|||
-  2026-05-25|Vaishakh|sud|10|||
-  2026-05-26|Vaishakh|sud|11|||
-  2026-05-27|Vaishakh|sud|11|Mohini||E
-  2026-05-28|Vaishakh|sud|12|||
-  2026-05-29|Vaishakh|sud|13|||
-  2026-05-30|Vaishakh|sud|14|||
-  2026-05-31|Vaishakh|sud|15|||
-  2026-06-01|Vaishakh|vad|1|||
-  2026-06-02|Vaishakh|vad|2|||
-  2026-06-03|Vaishakh|vad|3|||
-  2026-06-04|Vaishakh|vad|4|||
-  2026-06-05|Vaishakh|vad|5|||
-  2026-06-06|Vaishakh|vad|6|||
-  2026-06-07|Vaishakh|vad|7|||
-  2026-06-08|Vaishakh|vad|8|||
-  2026-06-09|Vaishakh|vad|9|||
-  2026-06-10|Vaishakh|vad|10|||
-  2026-06-11|Vaishakh|vad|11|Apara|Shri Vallabhacharya Prakatyotsav|E
-  2026-06-12|Vaishakh|vad|12|||
-  2026-06-13|Vaishakh|vad|13|||
-  2026-06-14|Vaishakh|vad|14|||
-  2026-06-15|Vaishakh|vad|15|||
-  2026-06-16|Jeth|sud|2|||
-  2026-06-17|Jeth|sud|3|||
-  2026-06-18|Jeth|sud|4|||
-  2026-06-19|Jeth|sud|5|||
-  2026-06-20|Jeth|sud|6|||
-  2026-06-21|Jeth|sud|7|||
-  2026-06-22|Jeth|sud|8|||
-  2026-06-23|Jeth|sud|9|||
-  2026-06-24|Jeth|sud|10|||
-  2026-06-25|Jeth|sud|11|Nirjala||E
-  2026-06-26|Jeth|sud|12|||
-  2026-06-27|Jeth|sud|13|||
-  2026-06-28|Jeth|sud|14|||
-  2026-06-29|Jeth|sud|15|||
-  2026-06-30|Jeth|vad|1|||
-  2026-07-01|Jeth|vad|1|||
-  2026-07-02|Jeth|vad|2|||
-  2026-07-03|Jeth|vad|3|||
-  2026-07-04|Jeth|vad|4|||
-  2026-07-05|Jeth|vad|5|||
-  2026-07-06|Jeth|vad|6|||
-  2026-07-07|Jeth|vad|7|||
-  2026-07-08|Jeth|vad|8|||
-  2026-07-09|Jeth|vad|9|||
-  2026-07-10|Jeth|vad|10|||
-  2026-07-11|Jeth|vad|12|Yogini||E
-  2026-07-12|Jeth|vad|13|||
-  2026-07-13|Jeth|vad|14|||
-  2026-07-14|Jeth|vad|15|||
+  2026-04-18|Vaishakh|sud|1|||
+  2026-04-19|Vaishakh|sud|2|||
+  2026-04-20|Vaishakh|sud|3||Akha Trij|
+  2026-04-21|Vaishakh|sud|5|||
+  2026-04-22|Vaishakh|sud|6|||
+  2026-04-23|Vaishakh|sud|7|||
+  2026-04-24|Vaishakh|sud|8|||
+  2026-04-25|Vaishakh|sud|9|||
+  2026-04-26|Vaishakh|sud|10|||
+  2026-04-27|Vaishakh|sud|11|Mohini||E
+  2026-04-28|Vaishakh|sud|12|||
+  2026-04-29|Vaishakh|sud|13|||
+  2026-04-30|Vaishakh|sud|14|||
+  2026-05-01|Vaishakh|sud|15|||
+  2026-05-02|Vaishakh|vad|1|||
+  2026-05-03|Vaishakh|vad|2|||
+  2026-05-04|Vaishakh|vad|3|||
+  2026-05-05|Vaishakh|vad|4|||
+  2026-05-06|Vaishakh|vad|4|||
+  2026-05-07|Vaishakh|vad|5|||
+  2026-05-08|Vaishakh|vad|6|||
+  2026-05-09|Vaishakh|vad|7|||
+  2026-05-10|Vaishakh|vad|8|||
+  2026-05-11|Vaishakh|vad|9|||
+  2026-05-12|Vaishakh|vad|10|||
+  2026-05-13|Vaishakh|vad|11|Apara|Shri Vallabhacharya Prakatyotsav|E
+  2026-05-14|Vaishakh|vad|12|||
+  2026-05-15|Vaishakh|vad|13|||
+  2026-05-16|Vaishakh|vad|15|||
+  2026-05-17|Jeth|sud|1|||
+  2026-05-18|Jeth|sud|2|||
+  2026-05-19|Jeth|sud|3|||
+  2026-05-20|Jeth|sud|4|||
+  2026-05-21|Jeth|sud|5|||
+  2026-05-22|Jeth|sud|6|||
+  2026-05-23|Jeth|sud|8|||
+  2026-05-24|Jeth|sud|9|||
+  2026-05-25|Jeth|sud|10|||
+  2026-05-26|Jeth|sud|11|||
+  2026-05-27|Jeth|sud|11|Nirjala||E
+  2026-05-28|Jeth|sud|12|||
+  2026-05-29|Jeth|sud|13|||
+  2026-05-30|Jeth|sud|14|||
+  2026-05-31|Jeth|sud|15|||
+  2026-06-01|Jeth|vad|1|||
+  2026-06-02|Jeth|vad|2|||
+  2026-06-03|Jeth|vad|3|||
+  2026-06-04|Jeth|vad|4|||
+  2026-06-05|Jeth|vad|5|||
+  2026-06-06|Jeth|vad|6|||
+  2026-06-07|Jeth|vad|7|||
+  2026-06-08|Jeth|vad|8|||
+  2026-06-09|Jeth|vad|9|||
+  2026-06-10|Jeth|vad|10|||
+  2026-06-11|Jeth|vad|11|Yogini||E
+  2026-06-12|Jeth|vad|12|||
+  2026-06-13|Jeth|vad|13|||
+  2026-06-14|Jeth|vad|14|||
+  2026-06-15|Jeth|vad|15|||
+  2026-06-16|Adhik Ashadh|sud|2|||
+  2026-06-17|Adhik Ashadh|sud|3|||
+  2026-06-18|Adhik Ashadh|sud|4|||
+  2026-06-19|Adhik Ashadh|sud|5|||
+  2026-06-20|Adhik Ashadh|sud|6|||
+  2026-06-21|Adhik Ashadh|sud|7|||
+  2026-06-22|Adhik Ashadh|sud|8|||
+  2026-06-23|Adhik Ashadh|sud|9|||
+  2026-06-24|Adhik Ashadh|sud|10|||
+  2026-06-25|Adhik Ashadh|sud|11|Padmini||E
+  2026-06-26|Adhik Ashadh|sud|12|||
+  2026-06-27|Adhik Ashadh|sud|13|||
+  2026-06-28|Adhik Ashadh|sud|14|||
+  2026-06-29|Adhik Ashadh|sud|15|||
+  2026-06-30|Adhik Ashadh|vad|1|||
+  2026-07-01|Adhik Ashadh|vad|1|||
+  2026-07-02|Adhik Ashadh|vad|2|||
+  2026-07-03|Adhik Ashadh|vad|3|||
+  2026-07-04|Adhik Ashadh|vad|4|||
+  2026-07-05|Adhik Ashadh|vad|5|||
+  2026-07-06|Adhik Ashadh|vad|6|||
+  2026-07-07|Adhik Ashadh|vad|7|||
+  2026-07-08|Adhik Ashadh|vad|8|||
+  2026-07-09|Adhik Ashadh|vad|9|||
+  2026-07-10|Adhik Ashadh|vad|10|||
+  2026-07-11|Adhik Ashadh|vad|12|Parama||E
+  2026-07-12|Adhik Ashadh|vad|13|||
+  2026-07-13|Adhik Ashadh|vad|14|||
+  2026-07-14|Adhik Ashadh|vad|15|||
   2026-07-15|Ashadh|sud|1|||
   2026-07-16|Ashadh|sud|2||Rath Yatra|
   2026-07-17|Ashadh|sud|3|||

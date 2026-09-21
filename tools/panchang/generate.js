@@ -114,6 +114,10 @@ const ANCHORS = [
   ['2026-09-22', 'Bhadarva Sud 11', 'Jal Jhilani'],
   ['2026-10-06', 'Bhadarva Vad 11', 'Indira'],
   ['2026-10-22', 'Aaso Sud 11', 'Pashankusha'],
+  // Confirmed against a panchang by the app owner. These two are what caught the
+  // MoonMasa.ino lag: the ino-based naming put Mohini on 27 May, a month late.
+  ['2026-04-27', 'Vaishakh Sud 11', 'Mohini'],
+  ['2026-05-27', 'Jeth Sud 11', 'Nirjala'],
   ['2026-11-05', 'Aaso Vad 11', 'Rama'],
   // Kartak Sud 11 is kshaya in 2026 (begins after sunrise on 20 Nov, ends before
   // sunrise on 21 Nov), so the vrat defers to the Dwadashi day.
@@ -156,7 +160,7 @@ function sampleDay(date) {
     date,
     sunrise,
     sunset: times.sunset,
-    masaIno: cal.MoonMasa.ino,                // trustworthy; the *name* is not
+    sunRasi: cal.Raasi.ino,                   // sun's sidereal sign; names the month
     paksha: tithiIno < 15 ? 'sud' : 'vad',
     tithi: (tithiIno % 15) + 1,
     libPaksha: t.Paksha.name_en_IN,           // cross-checked in selfCheck
@@ -164,16 +168,25 @@ function sampleDay(date) {
 }
 
 /**
- * Segments days into lunar months and marks adhik maas.
+ * Segments days into lunar months, then names each one from the solar sankranti
+ * it contains — which is what actually defines an amanta month.
  *
- * The boundary is the paksha cycle (a new amanta month begins at Sud 1, i.e.
- * wherever Vad is followed by Sud), NOT a change of `MoonMasa.ino`: during an
- * adhik maas the ino stays put for two whole months, so grouping by ino silently
- * merges them — and then the fortnight grouping loses an Ekadashi. When two
- * consecutive lunar months carry the same ino, the first is Adhik and the second
- * is Nij.
+ * `MoonMasa.ino` is NOT usable for this. It lags by a month around an adhik
+ * maas: across Apr-Jul 2026 it reports Vaishakh for the month that is really
+ * Jeth, which mislabels Mohini and Nirjala Ekadashi. `MoonMasa.isLeapMonth` is
+ * wrong too. Only the sun's sidereal sign is reliable.
+ *
+ * The classical rule: a lunar month is named after the rasi the sun enters
+ * during it (sun enters Mesha -> Chaitra, Vrishabha -> Vaishakh, ...). A month
+ * containing no sankranti at all is adhik, and takes the name of the nij month
+ * that follows it.
+ *
+ * Boundaries are the paksha cycle (a new month begins at Sud 1, i.e. wherever Vad
+ * is followed by Sud), so the sign is read at each month's first sunrise: if the
+ * next month starts in a different rasi, the sankranti into that rasi happened
+ * inside this month and names it.
  */
-function markAdhik(days) {
+function nameLunarMonths(days) {
   const months = [];
   for (const d of days) {
     const cur = months[months.length - 1];
@@ -181,28 +194,33 @@ function markAdhik(days) {
     if (!cur || (prevDay.paksha === 'vad' && d.paksha === 'sud')) months.push({ days: [d] });
     else cur.days.push(d);
   }
+  for (const m of months) m.startRasi = m.days[0].sunRasi;
 
-  for (const m of months) {
-    // The ino can wobble on a boundary day, so take the month's majority value.
-    const tally = new Map();
-    for (const d of m.days) tally.set(d.masaIno, (tally.get(d.masaIno) ?? 0) + 1);
-    m.ino = [...tally.entries()].sort((a, b) => b[1] - a[1])[0][0];
+  // Pass 1: nij months take the rasi entered during them; adhik months contain no
+  // sankranti, so the sun is still in the same sign when the next month opens.
+  for (let i = 0; i < months.length - 1; i++) {
+    const m = months[i];
+    m.isAdhik = months[i + 1].startRasi === m.startRasi;
+    m.rasiIndex = m.isAdhik ? null : months[i + 1].startRasi;
   }
 
-  for (let i = 0; i < months.length; i++) {
-    const m = months[i];
-    const adhik = i + 1 < months.length && months[i + 1].ino === m.ino;
-    m.isAdhik = adhik;
+  // Pass 2: an adhik month borrows its name from the nij month it precedes.
+  for (let i = months.length - 2; i >= 0; i--) {
+    if (months[i].isAdhik) months[i].rasiIndex = months[i + 1].rasiIndex;
+  }
+
+  for (const m of months) {
+    if (m.rasiIndex == null) continue;              // clipped tail of the scan
+    m.baseMonth = MONTHS_GU[m.rasiIndex];
     for (const d of m.days) {
-      d.lunarMonth = i;
-      d.isAdhik = adhik;
-      d.baseMonth = MONTHS_GU[m.ino];
-      d.monthGu = (adhik ? 'Adhik ' : '') + d.baseMonth;
+      d.lunarMonth = months.indexOf(m);
+      d.isAdhik = m.isAdhik;
+      d.baseMonth = m.baseMonth;
+      d.monthGu = (m.isAdhik ? 'Adhik ' : '') + m.baseMonth;
     }
   }
 
-  // A complete lunar month is 29-30 days; anything else means the segmentation
-  // drifted. The first and last are clipped by the scan window.
+  // Two adhik months cannot be adjacent, and a complete month is 29-30 days.
   for (let i = 1; i < months.length - 1; i++) {
     const n = months[i].days.length;
     if (n < 29 || n > 30) {
@@ -210,8 +228,11 @@ function markAdhik(days) {
         `lunar month starting ${key(months[i].days[0].date)} has ${n} days (expected 29-30)`,
       );
     }
+    if (months[i].isAdhik && months[i - 1].isAdhik) {
+      throw new Error(`two adjacent adhik months at ${key(months[i].days[0].date)}`);
+    }
   }
-  return days;
+  return days.filter((d) => d.monthGu !== undefined);
 }
 
 /**
@@ -326,8 +347,9 @@ function build(fromYear, toYear) {
   for (let d = scanStart; d.getTime() <= scanEnd.getTime(); d = addDays(d, 1)) {
     days.push(sampleDay(d));
   }
-  const notes = decorate(assignVikramSamvat(markAdhik(days)));
-  const inRange = days.filter(
+  const named = nameLunarMonths(days);
+  const notes = decorate(assignVikramSamvat(named));
+  const inRange = named.filter(
     (d) => d.date.getUTCFullYear() >= fromYear && d.date.getUTCFullYear() <= toYear,
   );
   return { days: inRange, notes };

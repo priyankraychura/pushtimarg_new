@@ -56,10 +56,10 @@ void main() {
       expect(vrat.isEkadashi, isTrue);
     });
 
-    test('marks Adhik Vaishakh 2026 and keeps its Ekadashis', () {
+    test('marks Adhik Ashadh 2026 and keeps its Ekadashis', () {
       final adhik = sampleTithi.where((d) => d.monthGu.startsWith('Adhik ')).toList();
       expect(adhik, isNotEmpty);
-      expect(adhik.map((d) => d.monthGu).toSet(), {'Adhik Vaishakh'});
+      expect(adhik.map((d) => d.monthGu).toSet(), {'Adhik Ashadh'});
       // An adhik maas has its own pair of Ekadashis, named Padmini and Parama.
       expect(
         adhik.where((d) => d.isEkadashi).map((d) => d.ekadashiName).toSet(),
@@ -86,6 +86,12 @@ void main() {
       expect(byKey['2026-09-04']!.utsav, contains('Janmashtami'));
       expect(byKey['2026-09-22']!.ekadashiName, 'Jal Jhilani');
       expect(byKey['2026-10-22']!.ekadashiName, 'Pashankusha');
+      // Panchang-confirmed. These two pinned down the month-naming bug: deriving
+      // the month from MoonMasa.ino put Mohini a month late, on 27 May.
+      expect(byKey['2026-04-27']!.fullLabel, 'Vaishakh Sud 11');
+      expect(byKey['2026-04-27']!.ekadashiName, 'Mohini');
+      expect(byKey['2026-05-27']!.fullLabel, 'Jeth Sud 11');
+      expect(byKey['2026-05-27']!.ekadashiName, 'Nirjala');
       expect(byKey['2026-03-03']!.fullLabel, 'Fagan Punam');
       expect(byKey['2026-11-09']!.isAmas, isTrue);
     });
