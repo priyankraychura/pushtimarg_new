@@ -4,9 +4,9 @@ import '../../../../core/theme/theme.dart';
 import '../../../../core/utils/gujarati_digits.dart';
 import '../../domain/lyrics.dart';
 
-/// One shloka: marigold "॥ ૩ ॥" marker + its lines. While auto-scrolling the
-/// current line is white, siblings in its stanza soft, everything else faded;
-/// otherwise all lines are white.
+/// One shloka: marigold "॥ ૩ ॥" marker + its lines, centred on the page.
+/// While auto-scrolling the current line is white, siblings in its stanza
+/// soft, everything else faded; otherwise all lines are white.
 class LyricStanza extends StatelessWidget {
   const LyricStanza({
     super.key,
@@ -50,10 +50,11 @@ class LyricStanza extends StatelessWidget {
     final style = base.copyWith(fontSize: AppTypography.lyric.fontSize! * textScale);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           '॥ ${gujaratiDigits(index + 1)} ॥',
+          textAlign: TextAlign.center,
           style: AppTypography.overline.copyWith(fontSize: 12, letterSpacing: 2, color: AppPalette.marigold),
         ),
         const SizedBox(height: 8),
@@ -62,6 +63,7 @@ class LyricStanza extends StatelessWidget {
             key: lineKeys.putIfAbsent(firstLineIndex + i, GlobalKey.new),
             duration: AppMotion.normal,
             curve: AppMotion.standard,
+            textAlign: TextAlign.center,
             style: style.copyWith(
               color: !highlight || firstLineIndex + i == currentLine
                   ? _white
@@ -69,7 +71,7 @@ class LyricStanza extends StatelessWidget {
                       ? _soft
                       : _dim,
             ),
-            child: Text(lines[i]),
+            child: Text(lines[i], textAlign: TextAlign.center),
           ),
           if (i < lines.length - 1) const SizedBox(height: 10),
         ],
