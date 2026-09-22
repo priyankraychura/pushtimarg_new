@@ -177,12 +177,26 @@ def web(rounded, squared):
     save(rounded, os.path.join(web_dir, "favicon.png"), 32)
 
 
+def play_store(squared):
+    print("play store")
+    # The Play listing icon is uploaded to the console, not bundled in the app.
+    # Play rounds the corners itself and rejects an alpha channel, so this is the
+    # full-bleed square as opaque RGB.
+    save(
+        squared,
+        os.path.join(ROOT, "assets", "icon", "play_store_512.png"),
+        512,
+        mode="RGB",
+    )
+
+
 def main():
     master = load_master()
     squared = fill_corners(master)
     android(master, squared)
     ios(squared)
     web(master, squared)
+    play_store(squared)
 
 
 if __name__ == "__main__":

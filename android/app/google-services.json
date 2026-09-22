@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:415112952875:android:a049e29a20327d2ae9fe6e",
+        "mobilesdk_app_id": "1:415112952875:android:8b8eee5954ee2ba0e9fe6e",
         "android_client_info": {
-          "package_name": "com.pushtimarg.pushti_kirtan"
+          "package_name": "com.priyank.pushtimarg"
         }
       },
       "oauth_client": [
         {
-          "client_id": "415112952875-ijl0hp2d5pkf87b1pbcuvvgeb50qoiuv.apps.googleusercontent.com",
+          "client_id": "415112952875-59rgmc6sokap6t14bn9cujvrlfqs939v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.pushtimarg.pushti_kirtan",
-            "certificate_hash": "21cca18c1f0119a92b7958d98178fed225840c6b"
+            "package_name": "com.priyank.pushtimarg",
+            "certificate_hash": "018fe95db4865e7db4917d96bb049fd349ae314b"
           }
         },
         {

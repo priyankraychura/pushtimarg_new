@@ -1,4 +1,4 @@
-package com.pushtimarg.pushti_kirtan
+package com.priyank.pushtimarg
 
 import io.flutter.embedding.android.FlutterActivity
 

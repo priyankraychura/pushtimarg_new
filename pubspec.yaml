@@ -1,7 +1,7 @@
 name: pushti_kirtan
 description: "Pushtimarg bhajan and kirtan lyrics app."
 publish_to: 'none'
-version: 0.1.0+1
+version: 1.2.0+4
 
 environment:
   sdk: ^3.13.4
