@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pushti_kirtan/features/calendar/data/sample_tithi.dart';
+import 'package:pushti_kirtan/features/calendar/data/tithi_repository.dart';
 import 'package:pushti_kirtan/features/calendar/domain/tithi_day.dart';
 
 /// Guards the generated tithi table (`tools/panchang/generate.js`). The generator
@@ -123,6 +124,46 @@ void main() {
       expect(back.isEkadashi, isTrue);
       expect(back.isEkadashiTithi, isFalse);
       expect(back.ekadashiName, 'Prabodhini');
+    });
+  });
+
+  group('pickUpcomingEkadashi', () {
+    test('returns the next vrat days on/after the given date', () {
+      final next = pickUpcomingEkadashi(sampleTithi, DateTime(2026, 9, 22), 4);
+      expect(next.map((d) => d.key), ['2026-09-22', '2026-10-06', '2026-10-22', '2026-11-05']);
+      expect(next.first.ekadashiName, 'Jal Jhilani');
+    });
+
+    test('counts a vrat day that is still today', () {
+      // The 22nd is itself an Ekadashi: it belongs in the list, not behind it.
+      expect(pickUpcomingEkadashi(sampleTithi, DateTime(2026, 9, 22, 23, 59), 1).single.key,
+          '2026-09-22');
+      expect(pickUpcomingEkadashi(sampleTithi, DateTime(2026, 9, 23), 1).single.key,
+          '2026-10-06');
+    });
+
+    test('finds vrat days in documents written before ekadashi_vrat existed', () {
+      // The live `tithi` collection predates the flag, so Firestore's own
+      // `where('ekadashi_vrat', isEqualTo: true)` matched none of these docs.
+      // Filtering here goes through TithiDay.isEkadashi, which falls back to
+      // the tithi, so the list fills either way.
+      final legacy = sampleTithi
+          .map((d) => TithiDay.fromMap({...d.toMap()}..remove('ekadashi_vrat')))
+          .toList();
+      expect(legacy.every((d) => d.ekadashiVrat == null), isTrue);
+      expect(pickUpcomingEkadashi(legacy, DateTime(2026, 9, 22), 4).map((d) => d.key),
+          ['2026-09-22', '2026-10-06', '2026-10-22', '2026-11-05']);
+    });
+
+    test('a 20-day-per-vrat window always holds enough days', () {
+      // FirestoreTithiRepository reads `count * 20` days and filters them here.
+      final vrats = sampleTithi.where((d) => d.isEkadashi).toList();
+      for (final d in sampleTithi) {
+        final ahead = vrats.where((v) => !v.date.isBefore(d.date)).take(4).toList();
+        if (ahead.length < 4) break; // Near the end of the table.
+        expect(ahead.last.date.difference(d.date).inDays, lessThan(4 * 20),
+            reason: 'window starting ${d.key} misses ${ahead.last.key}');
+      }
     });
   });
 }
