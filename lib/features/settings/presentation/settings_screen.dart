@@ -193,12 +193,13 @@ class SettingsScreen extends ConsumerWidget {
           ]),
 
           Gap.xxl,
-          Center(
-            child: TextButton(
-              onPressed: () => ref.read(authControllerProvider.notifier).signOut(),
-              child: Text('Sign out', style: AppTypography.labelLarge.copyWith(fontSize: 14, color: c.rose)),
+          if (user != null && !user.isAnonymous)
+            Center(
+              child: TextButton(
+                onPressed: () => ref.read(authControllerProvider.notifier).signOut(),
+                child: Text('Sign out', style: AppTypography.labelLarge.copyWith(fontSize: 14, color: c.rose)),
+              ),
             ),
-          ),
           Center(
             child: Text(
               'Version ${AppConfig.version}${AppConfig.demoMode ? ' · demo mode' : ''}',

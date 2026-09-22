@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Monochrome lotus glyph (currentColor) — for in-app use / Android adaptive foreground -->
+  <g transform="translate(256 330)" fill="currentColor">
+    <path d="M0 0 C-60 -8 -130 -40 -150 -110 C-95 -112 -40 -80 0 0Z" opacity="0.55"/>
+    <path d="M0 0 C60 -8 130 -40 150 -110 C95 -112 40 -80 0 0Z" opacity="0.55"/>
+    <path d="M0 0 C-40 -40 -100 -110 -95 -190 C-45 -160 -10 -90 0 0Z" opacity="0.75"/>
+    <path d="M0 0 C40 -40 100 -110 95 -190 C45 -160 10 -90 0 0Z" opacity="0.75"/>
+    <path d="M0 0 C-22 -60 -50 -140 -30 -215 C0 -180 8 -100 0 0Z" opacity="0.9"/>
+    <path d="M0 0 C22 -60 50 -140 30 -215 C0 -180 -8 -100 0 0Z" opacity="0.9"/>
+    <path d="M0 0 C-18 -70 -18 -150 0 -235 C18 -150 18 -70 0 0Z"/>
+    <path d="M-120 34 Q-60 18 0 34 T120 34" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+    <path d="M-80 60 Q-40 48 0 60 T80 60" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+  </g>
+</svg>

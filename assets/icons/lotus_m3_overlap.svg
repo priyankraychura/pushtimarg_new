@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- M3 Overlap: translucent petals that blend where they cross (Figma/Notion style) -->
+  <defs>
+    <path id="r" d="M0 30 C-58 -30 -58 -130 0 -190 C58 -130 58 -30 0 30Z"/>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="#F4F6F8"/>
+  <g transform="translate(256 330)" style="mix-blend-mode:multiply">
+    <use href="#r" transform="rotate(-50)" fill="#F2B134" opacity="0.85"/>
+    <use href="#r" transform="rotate(50)" fill="#F2B134" opacity="0.85"/>
+    <use href="#r" transform="rotate(-25)" fill="#E4789A" opacity="0.85"/>
+    <use href="#r" transform="rotate(25)" fill="#E4789A" opacity="0.85"/>
+    <use href="#r" fill="#1E5A70" opacity="0.9"/>
+  </g>
+</svg>

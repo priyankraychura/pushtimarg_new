@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- V3 Rekha: thin gold line-art lotus on deep teal -->
+  <rect width="512" height="512" rx="112" fill="#1A4F63"/>
+  <g transform="translate(256 330)" fill="none" stroke="#F2B134" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 0 C-60 -8 -130 -40 -150 -110 C-95 -112 -40 -80 0 0Z"/>
+    <path d="M0 0 C60 -8 130 -40 150 -110 C95 -112 40 -80 0 0Z"/>
+    <path d="M0 0 C-40 -40 -100 -110 -95 -190 C-45 -160 -10 -90 0 0Z"/>
+    <path d="M0 0 C40 -40 100 -110 95 -190 C45 -160 10 -90 0 0Z"/>
+    <path d="M0 0 C-22 -60 -50 -140 -30 -215 C0 -180 8 -100 0 0Z"/>
+    <path d="M0 0 C22 -60 50 -140 30 -215 C0 -180 -8 -100 0 0Z"/>
+    <path d="M0 0 C-18 -70 -18 -150 0 -235 C18 -150 18 -70 0 0Z"/>
+    <path d="M-120 40 Q-60 24 0 40 T120 40"/>
+    <path d="M-80 68 Q-40 56 0 68 T80 68" opacity="0.5"/>
+  </g>
+</svg>

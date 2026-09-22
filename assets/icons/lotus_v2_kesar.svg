@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- V2 Kesar: marigold lotus on cream, teal accents -->
+  <defs>
+    <linearGradient id="p1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#D9971E"/><stop offset="1" stop-color="#FFD87A"/></linearGradient>
+    <linearGradient id="p2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#F2B134"/><stop offset="1" stop-color="#FFE7A8"/></linearGradient>
+    <linearGradient id="p3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#F7C65C"/><stop offset="1" stop-color="#FFF4D6"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#FFF1CF"/>
+  <circle cx="256" cy="268" r="160" fill="#1E5A70" opacity="0.06"/>
+  <g transform="translate(256 330)">
+    <path d="M0 0 C-60 -8 -130 -40 -150 -110 C-95 -112 -40 -80 0 0Z" fill="url(#p1)"/>
+    <path d="M0 0 C60 -8 130 -40 150 -110 C95 -112 40 -80 0 0Z" fill="url(#p1)"/>
+    <path d="M0 0 C-40 -40 -100 -110 -95 -190 C-45 -160 -10 -90 0 0Z" fill="url(#p2)"/>
+    <path d="M0 0 C40 -40 100 -110 95 -190 C45 -160 10 -90 0 0Z" fill="url(#p2)"/>
+    <path d="M0 0 C-22 -60 -50 -140 -30 -215 C0 -180 8 -100 0 0Z" fill="url(#p3)"/>
+    <path d="M0 0 C22 -60 50 -140 30 -215 C0 -180 -8 -100 0 0Z" fill="url(#p3)"/>
+    <path d="M0 0 C-18 -70 -18 -150 0 -235 C18 -150 18 -70 0 0Z" fill="#FFFBEF"/>
+    <ellipse cx="0" cy="-12" rx="46" ry="22" fill="#1E5A70"/>
+    <circle cx="-18" cy="-14" r="5" fill="#EEF6F8" opacity="0.8"/><circle cx="0" cy="-18" r="5" fill="#EEF6F8" opacity="0.8"/><circle cx="18" cy="-14" r="5" fill="#EEF6F8" opacity="0.8"/>
+    <path d="M-120 34 Q-60 18 0 34 T120 34" fill="none" stroke="#1E5A70" stroke-width="7" stroke-linecap="round"/>
+    <path d="M-80 60 Q-40 48 0 60 T80 60" fill="none" stroke="#1E5A70" stroke-width="6" stroke-linecap="round" opacity="0.45"/>
+  </g>
+</svg>

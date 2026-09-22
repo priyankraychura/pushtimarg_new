@@ -29,6 +29,14 @@ const List<Bhajan> sampleBhajans = [
     seva: '',
   ),
   Bhajan(
+    id: 'sarvottam-stotra',
+    title: 'શ્રી સર્વોત્તમ સ્તોત્ર',
+    category: BhajanCategory.kirtan,
+    poet: 'Shri Vitthalnathji (Gusainji)',
+    seva: '',
+    tags: ['sarvottam', 'sarvotam', 'stotra', '108 naam', 'mahaprabhuji'],
+  ),
+  Bhajan(
     id: 'giriraj-dharyashtakam',
     title: 'શ્રી ગિરિરાજધાર્યાષ્ટકમ્',
     category: BhajanCategory.kirtan,
