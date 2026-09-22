@@ -1,13 +1,5 @@
 {
-  "indexes": [
-    {
-      "collectionGroup": "tithi",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "ekadashi_vrat", "order": "ASCENDING" },
-        { "fieldPath": "date", "order": "ASCENDING" }
-      ]
-    }
-  ],
+  "_comment": "No composite indexes. Every tithi query filters and orders on `date` alone, which Firestore serves from its automatic single-field indexes; see FirestoreTithiRepository for why the Ekadashi list does not filter on `ekadashi_vrat`.",
+  "indexes": [],
   "fieldOverrides": []
 }

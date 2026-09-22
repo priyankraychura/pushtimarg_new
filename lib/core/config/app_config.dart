@@ -13,6 +13,15 @@ abstract final class AppConfig {
 
   static bool demoMode = false;
 
+  /// Accounts that get the Firestore seeding tools in Settings on a release
+  /// build, not just in debug. Lower-case; compared against the signed-in
+  /// email lower-cased.
+  ///
+  /// This only decides whether the buttons are drawn. It is not a security
+  /// boundary — what an account may actually write to Firestore is decided by
+  /// the Firestore security rules, and has to be enforced there.
+  static const Set<String> maintainerEmails = {'priyankraychura@gmail.com'};
+
   /// Default seva schedule (24h). Editable in Settings.
   static const Map<String, String> defaultSevaTimes = {
     'Mangala': '05:30',
