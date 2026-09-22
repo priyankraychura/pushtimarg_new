@@ -36,10 +36,13 @@ final routerProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       final user = ref.read(authStateProvider);
       if (user.isLoading) return null;
-      final signedIn = user.value != null;
+      final account = user.value;
       final onSignIn = state.matchedLocation == AppRoutes.signIn;
-      if (!signedIn && !onSignIn) return AppRoutes.signIn;
-      if (signedIn && onSignIn) return AppRoutes.home;
+      if (account == null && !onSignIn) return AppRoutes.signIn;
+      // A guest may open the sign-in screen from Settings to upgrade their
+      // session, so only a real account is sent back to Home — which is also
+      // what lands them there the moment the upgrade goes through.
+      if (account != null && !account.isAnonymous && onSignIn) return AppRoutes.home;
       return null;
     },
     routes: [

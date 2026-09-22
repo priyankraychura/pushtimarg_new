@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/config/app_config.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/utils/context_extensions.dart';
 import '../../../core/utils/open_link.dart';
@@ -58,7 +60,16 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                   if (user != null && !user.isAnonymous)
-                    AppChip(label: 'Synced', tone: AppChipTone.accent, leading: _dot(c.accent)),
+                    AppChip(label: 'Synced', tone: AppChipTone.accent, leading: _dot(c.accent))
+                  else
+                    // A guest keeps everything on this device; the chip is the
+                    // way up to a real account.
+                    AppChip(
+                      label: 'Sign in',
+                      tone: AppChipTone.brand,
+                      trailing: Icon(Icons.arrow_forward_rounded, size: 14, color: c.brandText),
+                      onTap: () => context.push(AppRoutes.signIn),
+                    ),
                 ],
               ),
             ),

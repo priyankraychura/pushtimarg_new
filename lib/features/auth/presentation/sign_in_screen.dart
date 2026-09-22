@@ -60,6 +60,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final c = context.colors;
     final state = ref.watch(authControllerProvider);
     final isRegister = state.mode == AuthMode.register;
+    // Opened from the Settings profile card rather than by the router's
+    // redirect: there is a screen underneath to go back to, and the guest
+    // already has a session that must not be replaced.
+    final isGuest = ref.watch(currentUserProvider)?.isAnonymous ?? false;
+    final canGoBack = Navigator.of(context).canPop();
 
     ref.listen(authControllerProvider.select((s) => s.error), (_, error) {
       if (error != null) context.showSnack(error);
@@ -78,6 +83,17 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (canGoBack) ...[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: AppIconButton(
+                            icon: Icons.arrow_back_ios_new_rounded,
+                            iconSize: 20,
+                            onTap: () => Navigator.of(context).maybePop(),
+                          ),
+                        ),
+                        Gap.sm,
+                      ],
                       Container(
                         width: 52,
                         height: 52,
@@ -172,7 +188,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           // Opaque + padded so the whole row is tappable, not
                           // just the glyphs.
                           behavior: HitTestBehavior.opaque,
-                          onTap: state.busy ? null : () => ref.read(authControllerProvider.notifier).guest(),
+                          onTap: state.busy
+                              ? null
+                              // Already browsing as a guest, so there is
+                              // nothing to sign in to — going back keeps the
+                              // session (and its uid) they already have.
+                              : isGuest
+                                  ? () => Navigator.of(context).maybePop()
+                                  : () => ref.read(authControllerProvider.notifier).guest(),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
                             child: Text('Continue without an account',
