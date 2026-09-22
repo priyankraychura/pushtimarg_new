@@ -28,6 +28,7 @@ class SettingsScreen extends ConsumerWidget {
     final sevaTimes = ref.watch(sevaTimesProvider);
     final count = ref.watch(allBhajansProvider).value?.length ?? 0;
     final bundled = ref.watch(useBundledContentProvider);
+    final canSeed = (kDebugMode || ref.watch(isMaintainerProvider)) && !bundled;
 
     return Scaffold(
       body: ListView(
@@ -174,19 +175,19 @@ class SettingsScreen extends ConsumerWidget {
               label: 'Privacy policy',
               onTap: () => openLink(context, AppConfig.privacyPolicyUrl),
             ),
-            if (kDebugMode && !bundled) ...[
+            if (canSeed) ...[
               SettingsRow(
                 icon: Icons.cloud_upload_outlined,
                 tone: IconTileTone.accent,
                 label: 'Seed sample data',
-                description: 'Debug · writes sample bhajans to Firestore',
+                description: 'Maintainer · writes sample bhajans to Firestore',
                 onTap: () => _seed(context),
               ),
               SettingsRow(
                 icon: Icons.calendar_month_outlined,
                 tone: IconTileTone.accent,
                 label: 'Seed tithi calendar',
-                description: 'Debug · writes the generated tithi table to Firestore',
+                description: 'Maintainer · writes the generated tithi table to Firestore',
                 onTap: () => _seedTithi(context),
               ),
             ],

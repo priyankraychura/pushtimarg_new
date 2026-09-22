@@ -35,6 +35,14 @@ final useBundledContentProvider = Provider<bool>(
   (ref) => AppConfig.demoMode || (ref.watch(currentUserProvider)?.isLocalGuest ?? false),
 );
 
+/// True when the signed-in account is listed in [AppConfig.maintainerEmails],
+/// which puts the Firestore seeding tools in Settings on release builds too.
+/// A guest or a signed-out session is never a maintainer.
+final isMaintainerProvider = Provider<bool>((ref) {
+  final email = ref.watch(currentUserProvider)?.email?.trim().toLowerCase();
+  return email != null && AppConfig.maintainerEmails.contains(email);
+});
+
 enum AuthMode { signIn, register }
 
 /// Sign-in screen state: which mode, whether a request is in flight, last error.
