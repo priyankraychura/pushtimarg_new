@@ -81,11 +81,14 @@ class _PadScreenState extends ConsumerState<PadScreen> {
           if (poets.length > 1) ...[
             const SliverToBoxAdapter(child: Gap.md),
             SliverToBoxAdapter(
+              // A horizontal ListView stretches its children to the viewport
+              // height, so the box is the chip's height and the space around it
+              // comes from the gaps either side.
               child: SizedBox(
-                height: 52,
+                height: 40,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.md, AppSpacing.page, 0),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.page),
                   children: [
                     AppChip(
                       label: 'All poets',
@@ -104,6 +107,7 @@ class _PadScreenState extends ConsumerState<PadScreen> {
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: Gap.xl),
           ] else
             const SliverToBoxAdapter(child: Gap.xl),
           SliverToBoxAdapter(
