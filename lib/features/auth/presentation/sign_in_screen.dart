@@ -1,11 +1,14 @@
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/app_config.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/utils/context_extensions.dart';
+import '../../../core/utils/open_link.dart';
 import '../../../core/widgets/widgets.dart';
 import '../providers/auth_providers.dart';
 import 'widgets/google_logo.dart';
@@ -21,11 +24,19 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   final _form = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _privacy = TapGestureRecognizer();
+
+  @override
+  void initState() {
+    super.initState();
+    _privacy.onTap = () => openLink(context, AppConfig.privacyPolicyUrl);
+  }
 
   @override
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _privacy.dispose();
     super.dispose();
   }
 
@@ -158,9 +169,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       Gap.md,
                       Center(
                         child: GestureDetector(
+                          // Opaque + padded so the whole row is tappable, not
+                          // just the glyphs.
+                          behavior: HitTestBehavior.opaque,
                           onTap: state.busy ? null : () => ref.read(authControllerProvider.notifier).guest(),
-                          child: Text('Continue without an account',
-                              style: AppTypography.labelMedium.copyWith(fontSize: 14, color: c.ink3)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+                            child: Text('Continue without an account',
+                                style: AppTypography.labelMedium.copyWith(fontSize: 14, color: c.ink3)),
+                          ),
                         ),
                       ),
                       Gap.lg,
@@ -172,7 +189,16 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               const TextSpan(text: 'By continuing you agree to the '),
                               TextSpan(text: 'Terms', style: TextStyle(fontWeight: FontWeight.w600, color: c.ink2)),
                               const TextSpan(text: ' and '),
-                              TextSpan(text: 'Privacy Policy', style: TextStyle(fontWeight: FontWeight.w600, color: c.ink2)),
+                              TextSpan(
+                                text: 'Privacy Policy',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: c.brandText,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: c.brandText,
+                                ),
+                                recognizer: _privacy,
+                              ),
                               const TextSpan(text: '.'),
                             ],
                           ),

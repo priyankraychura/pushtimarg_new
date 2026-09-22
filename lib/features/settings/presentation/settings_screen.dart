@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/utils/context_extensions.dart';
+import '../../../core/utils/open_link.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../auth/providers/auth_providers.dart';
 import '../../bhajans/data/seed.dart';
@@ -26,6 +27,7 @@ class SettingsScreen extends ConsumerWidget {
     final user = ref.watch(currentUserProvider);
     final sevaTimes = ref.watch(sevaTimesProvider);
     final count = ref.watch(allBhajansProvider).value?.length ?? 0;
+    final bundled = ref.watch(useBundledContentProvider);
 
     return Scaffold(
       body: ListView(
@@ -160,13 +162,19 @@ class SettingsScreen extends ConsumerWidget {
               icon: Icons.download_outlined,
               tone: IconTileTone.accent,
               label: 'Offline bhajans',
-              description: AppConfig.demoMode ? '$count sample bhajans' : '$count downloaded',
+              description: bundled ? '$count bundled bhajans' : '$count downloaded',
               value: 'Up to date',
               chevron: false,
             ),
             const SettingsRow(icon: Icons.edit_outlined, tone: IconTileTone.accent, label: 'Suggest a bhajan or report a mistake'),
             const SettingsRow(icon: Icons.star_outline_rounded, tone: IconTileTone.accent, label: 'Rate the app'),
-            if (kDebugMode && !AppConfig.demoMode) ...[
+            SettingsRow(
+              icon: Icons.privacy_tip_outlined,
+              tone: IconTileTone.accent,
+              label: 'Privacy policy',
+              onTap: () => openLink(context, AppConfig.privacyPolicyUrl),
+            ),
+            if (kDebugMode && !bundled) ...[
               SettingsRow(
                 icon: Icons.cloud_upload_outlined,
                 tone: IconTileTone.accent,

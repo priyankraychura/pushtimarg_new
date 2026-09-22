@@ -9,6 +9,7 @@ class AppUser {
     this.displayName,
     this.photoUrl,
     this.isAnonymous = false,
+    this.isLocalGuest = false,
     this.provider = AuthProviderKind.email,
   });
 
@@ -17,6 +18,12 @@ class AppUser {
   final String? displayName;
   final String? photoUrl;
   final bool isAnonymous;
+
+  /// A guest the app is running on the device alone, without a Firebase
+  /// session behind it — so Firestore is out of reach and the bundled
+  /// content is served instead. See [GuestSessionStore].
+  final bool isLocalGuest;
+
   final AuthProviderKind provider;
 
   String get name {

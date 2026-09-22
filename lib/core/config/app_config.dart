@@ -7,6 +7,10 @@ abstract final class AppConfig {
   static const String appName = 'Pushti Kirtan';
   static const String version = '0.1.0';
 
+  /// Published privacy policy, linked from the sign-in screen and Settings.
+  static const String privacyPolicyUrl =
+      'https://priyank-raychura.vercel.app/privacy-policy/pushtimarg';
+
   static bool demoMode = false;
 
   /// Default seva schedule (24h). Editable in Settings.

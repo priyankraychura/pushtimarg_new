@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/config/app_config.dart';
+import '../../auth/providers/auth_providers.dart';
 import '../data/varta_repository.dart';
 import '../domain/varta.dart';
 import '../domain/varta_collection.dart';
 
 final vartaRepositoryProvider = Provider<VartaRepository>((ref) {
-  if (AppConfig.demoMode) return SampleVartaRepository();
+  if (ref.watch(useBundledContentProvider)) return SampleVartaRepository();
   return FirestoreVartaRepository(FirebaseFirestore.instance);
 });
 

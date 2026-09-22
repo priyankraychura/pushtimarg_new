@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/config/app_config.dart';
+import '../../auth/providers/auth_providers.dart';
 import '../data/bhajan_repository.dart';
 import '../data/yamunaji_41_pad_bhajans.dart';
 import '../domain/bhajan.dart';
 
 final bhajanRepositoryProvider = Provider<BhajanRepository>((ref) {
-  if (AppConfig.demoMode) return SampleBhajanRepository();
+  if (ref.watch(useBundledContentProvider)) return SampleBhajanRepository();
   return FirestoreBhajanRepository(FirebaseFirestore.instance);
 });
 

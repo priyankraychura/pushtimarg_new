@@ -2,12 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_config.dart';
+import '../../settings/providers/settings_providers.dart';
 import '../data/auth_repository.dart';
+import '../data/guest_session.dart';
 import '../domain/app_user.dart';
+
+final guestSessionProvider = Provider<GuestSessionStore>((ref) {
+  final store = GuestSessionStore(ref.watch(sharedPreferencesProvider));
+  ref.onDispose(store.dispose);
+  return store;
+});
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   if (AppConfig.demoMode) return DemoAuthRepository();
-  return FirebaseAuthRepository(FirebaseAuth.instance);
+  return FirebaseAuthRepository(FirebaseAuth.instance, ref.watch(guestSessionProvider));
 });
 
 /// Current user (null = signed out). The router listens to this.
@@ -17,6 +25,14 @@ final authStateProvider = StreamProvider<AppUser?>(
 
 final currentUserProvider = Provider<AppUser?>(
   (ref) => ref.watch(authStateProvider).value,
+);
+
+/// True when nothing is signed in with Firebase, so Firestore would refuse
+/// every read: demo mode, or a guest running on the device alone. The content
+/// repositories serve the bundled bhajans, lyrics, vartas and tithi instead of
+/// leaving the app empty.
+final useBundledContentProvider = Provider<bool>(
+  (ref) => AppConfig.demoMode || (ref.watch(currentUserProvider)?.isLocalGuest ?? false),
 );
 
 enum AuthMode { signIn, register }

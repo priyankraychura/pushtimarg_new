@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/config/app_config.dart';
+import '../../auth/providers/auth_providers.dart';
 import '../data/tithi_repository.dart';
 import '../domain/tithi_day.dart';
 
 final tithiRepositoryProvider = Provider<TithiRepository>((ref) {
-  if (AppConfig.demoMode) return SampleTithiRepository();
+  if (ref.watch(useBundledContentProvider)) return SampleTithiRepository();
   return FirestoreTithiRepository(FirebaseFirestore.instance);
 });
 
