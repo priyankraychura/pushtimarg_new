@@ -15,28 +15,37 @@ class AppAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final initial = name.trim().isEmpty ? '?' : name.trim()[0].toUpperCase();
+    final url = photoUrl;
     return Container(
       width: size,
       height: size,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: c.accent,
+      decoration: BoxDecoration(color: c.accent, shape: BoxShape.circle),
+      // The ring is painted in front instead of being part of `decoration`:
+      // a decoration border pads the child in by its width, which left a
+      // marigold gap around the photo and put the translucent white on that
+      // gap rather than on the photo itself.
+      foregroundDecoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white.withValues(alpha: .35), width: 2),
       ),
       clipBehavior: Clip.antiAlias,
-      child: photoUrl != null
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Center(child: Text(initial, style: _style(c))),
+          // The photo covers the initial edge to edge once it decodes; while
+          // it loads, or if it fails, the initial underneath stays visible.
           // Google photo hosts block CORS on web, so let the web build fall
-          // back to a plain <img> element; the initial shows if that fails too.
-          ? Image.network(
-              photoUrl!,
+          // back to a plain <img> element.
+          if (url != null)
+            Image.network(
+              url,
               fit: BoxFit.cover,
-              width: size,
-              height: size,
               webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
-              errorBuilder: (_, _, _) => Text(initial, style: _style(c)),
-            )
-          : Text(initial, style: _style(c)),
+              errorBuilder: (_, _, _) => const SizedBox.shrink(),
+            ),
+        ],
+      ),
     );
   }
 
